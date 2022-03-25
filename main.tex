@@ -31,7 +31,7 @@
 \lorem
 
 \chapter*{Declaration}
-Chapter 2 is based on the work carried out in papers [cite COG paper], [cite arxiv preprint] and [cite behavioural]. Chapter 3 is based on the work carried out in paper [cite behavioural].
+The work presented in this thesis was developed as a partnership between University of York and Square Enix Ltd. It was supported by the EPSRC Centre for Doctoral Training in Intelligent Games \& Games Intelligence (IGGI) grant number [EP/L015846/1]. All data employed in this work were obtained and processed in compliance with the European Union's General Data Protection Regulation \cite{EUdataregulations2018} and Square Enix Ltd. data protection policies. Chapter \ref{chapter_theory_modelling} is based on the work carried out in \cite{bonometti2020theory, bonometti2021approximating}. Chapter \ref{chapter_implementation_testing} is based on the work carried out in \cite{bonometti2019modelling, bonometti2020theory, bonometti2021approximating}. Chapter \ref{chapter_repr_anal} is based on the work carried out in \cite{bonometti2021approximating}.
 
 \chapter*{Acknowledgements}
 \lorem
@@ -41,24 +41,35 @@ Chapter 2 is based on the work carried out in papers [cite COG paper], [cite arx
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Introduction}
+\label{chapter_intro}
 \input{chapters/introduction/introduction}
 
 \chapter{Literature Review}
+\label{chapter_lit_review}
 \input{chapters/chapter_1/chapter_1}
 
 \chapter{From Theory to Modelling}
+\label{chapter_theory_modelling}
 \input{chapters/chapter_2/chapter_2}
 
 \chapter{Model Implementation and Testing}
+\label{chapter_implementation_testing}
 \input{chapters/chapter_3/chapter_3}
 
 \chapter{Representation Analysis}
+\label{chapter_repr_anal}
 \input{chapters/chapter_4/chapter_4}
 
-\chapter{Conclusion}
-\input{chapters/conclusion/conclusion}
+\chapter{Model Application and Pipeline}
+\label{chapter_appliction}
+\input{chapters/chapter_5/chapter_5}
 
+\chapter{General Discussion}
+\label{chapter_general_discussion}
+\input{chapters/general_discussion/general_discussion}
 
+\bibliographystyle{unsrt}
+\bibliography{bibliography}
 
 \end{document}
 
