@@ -1,0 +1,94 @@
+\section{Introduction}
+\label{implementation_testing_introduction}
+
+\section{Model Architecture I}
+\label{model_architecture_1}
+\lorem
+
+\subsection{Data}
+To conduct our experiments, we gathered data from six different games published by our partner company, \textit{Square Enix Limited}. Focusing on maintaining heterogeneity in genre and platform, we considered the following titles: \emph{Hitman Go} (hmg), \emph{Hitman Sniper} (hms), \emph{Just Cause 3} (jc3), \emph{Just Cause 4} (jc4), \emph{Life is Strange} (lis), and \emph{Life is Strange: Before the Storm} (lisbf). A general description of each of these titles can be found in Table \ref{gamesdescription}. Data were gathered from any user playing between the game's release and February 2019, allowing us to adopt more robust sampling strategies which utilizes the breadth of virtually the entire user-base. To rule out possible `faulty' but not `naturally abnormal' data, we restricted the data cleaning process to a single filter applied at query time to ignore users having at least one of the considered metric over the game population's \nth{99} percentile. This allowed us to make little assumptions on the distribution of the data as well as providing a convenient stress test for eventual future applications.
+
+\paragraph{Defining the Observation Period}
+Because we were interested in estimating survival time and churn probability based only on early user-game interactions it was important to define a cut-off at which point interactions were no longer be considered `early'. We call the period from the user's first interaction till this cut-off the observation period (OP). Choosing the length for the OP was not trivial as there is little indication in the literature about optimal cut-off values. Hence, we decided to visually inspect the data a-priori and extend rules proposed in \cite{drachen2016rapid, milovsevic2017early} to take into account natural inter-individual differences. Therefore, we defined the cut-off as:
+
+\begin{equation}
+\label{CutoffOP}
+    \text{cutoff} = 
+    \Biggl\lceil
+        \dfrac
+            {min(S_t, S_c)}
+            {3}
+    \Biggr\rceil
+\end{equation}
+
+Where $S_t$ is the total number of game play sessions and $S_c$ is the number of game play sessions before the user completed the game for the first time. In this way we take the first \sfrac{1}{3} of all played sessions for players who churned and the first \sfrac{1}{3} of played sessions before a non-churning player completed the game for the first time. We apply this cut off to the ordered list of all recorded play sessions for a specific user. We decided to use game sessions as the temporal dimension, rather than total minutes played, since we believed it better adjusted for each user's `pace' (i.e. not all the users have the possibility to play at the same frequency). Since the length of the OP has a naturally different distribution between the churning and non-churning population, we stratified our sampling technique to maintain a similar ratio of OP lengths among churners and non churners. This becomes particularly relevant for Experiment 2 and 3 where the length of the OP could leak information in the churn probability estimation task. Summarizing, if a user for example had 9 total sessions recorded, we considered the first 3 for making estimations on what happened after the 9$^{th}$. It goes without saying that at production time the OP is defined only for generating the training samples, the model can be deployed at various stages of previously unseen time series which we simulate in our experiments with the test set. 
+
+\paragraph{Defining the Behavioural Metrics and Targets}
+We considered a set of 5 metrics, easily generalizable across games and indicative of behavioural activity, and retrieved them temporally  (i.e. over each game session during the OP), see Table \ref{metricsdescription} for a description. Additionally, we acquired a single context feature specifying the game context from where the metrics were originated. For determining the targets for our survival and churn estimation tasks, we leveraged existing literature on churn prediction \cite{drachen2016rapid, milovsevic2017early, lee2018game, perianez2016churn, runge2014churn, kim2017churn, hadiji2014predicting, xie2015predicting} and survival analysis \cite{viljanen2018playtime, demediuk2018player, lee2018game, bertens2017games}, extending existing rules to accommodate the need to define churn and survival time in single player games with a defined life cycle (i.e. non-GaaS games). We took advantage of having access to the complete session history for all users to create a churn definition which was robust to the variance in play patterns across games, as it takes into account all the recorded inter-session distances. Therefore, the criteria we adopted for defining a user as churner were both: 
+
+\begin{enumerate}
+    \item Not completing the game
+    \item Being inactive for a period equal or greater to:
+        \begin{equation}
+            \label{inactivityrule}
+            \text{inactivity} = 
+            mean(\mathbf{x}) + 2.5 \cdot std(\mathbf{x})
+        \end{equation}
+\end{enumerate}
+
+For better adjusting for inter-individual differences, we could have applied formula \ref{inactivityrule} to each user individually but this could have created accuracy issue for individuals with very few recorded sessions. Therefore, we opted for a conservative but more robust approach applying inactivity ($\mathbf{x}$) $\forall \mathbf{x} \in X$ where $X$ is the collection of all the considered games and $\mathbf{x}$ is the vector of inter-sessions distances in minutes for a specific game. The use of formula \ref{inactivityrule} allowed us to estimate an inactivity period which was not arbitrarily chosen but statistically defined as ‘extraordinary long’ in accordance with characteristics of play patterns in a particular game. For defining the survival time, we simply computed the total amount of Play Time in minutes for a user minus the amount of Play Time during the OP.
+
+\begin{table}[h] \centering
+\caption{\textbf{Considered Metrics over Sessions}}
+\label{metricsdescription}
+\resizebox{0.5\textwidth}{!}{
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Metric}            & \textbf{Description}                   \\ \midrule
+{Session Time}         & Overall session duration (minutes)              \\ 
+{Play Time}            & Session Time spent actively playing (minutes)    \\ 
+{Delta Session}        & Temporal distance  between sessions (minutes)   \\ 
+{Activity Index}       & Count of user initiated game-play-related actions. E.g.\\ 
+                       & `Talk to NPC' or `Acquire Upgrade' were considered valid\\ 
+                       & actions while `Click Menu' or `NPC Attacks You' were not.\\
+{Activity Diversity}   & Count of unique voluntarily initiated actions \\ 
+{Context}              & Name of the game taken into consideration \\ \bottomrule
+\end{tabular}
+}
+\end{table}
+
+\paragraph{Data Preparation}We adopted specific data preparation procedures for each experiment. For the first analysis we collapsed the data over the temporal dimension retrieving mean and standard deviation of each considered features, to this concatenating a one-hot encoded transformation of the context metric. For the second and third experiments we kept the data in the original temporal form. In Experiment 3 only we treated the game context slightly differently, numerically encoding it and separating it from the other feature matrix. Since in Experiment 2 and 3 the length of the OP differed between users, we zero padded each sequence of considered sessions to the length of the longest sequence in the data-set. For each experiment we created a tuning and validation subsets (i.e. 20 and 80 \% of the original data-set) via stratified shuffle split \cite{scikit-learn}, employing the first for hyper-parameters searching and the second for model evaluation.
+
+\subsection{Model Testing Pipeline}
+\lorem
+
+\subsection{Results}
+\lorem
+
+
+
+\section{Model Architecture II}
+\label{model_architecture_1}
+\lorem
+
+\subsection{Dataset}
+\lorem
+
+\subsection{Results}
+\lorem
+
+\subsection{Model Testing Pipeline}
+\lorem
+
+\section{Model Architecture III}
+\label{model_architecture_1}
+\lorem
+
+\subsection{Dataset}
+\lorem
+
+\subsection{Model Testing Pipeline}
+\lorem
+
+\subsection{Results}
+\lorem
