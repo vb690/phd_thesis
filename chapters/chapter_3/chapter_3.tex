@@ -1,14 +1,34 @@
 \section{Introduction}
 \label{implementation_testing_introduction}
 
-\section{Model Architecture I}
+\section{Joint Prediction of Future Behavioural Intensity}
 \label{model_architecture_1}
-\lorem
+
+\subsection{Model Description}
+We present a novel deep neural network architecture, loosely inspired by the winning entry in \cite{lee2018game}, for jointly estimate survival time and churn probability. This architecture, the `Bifurcating Model' (BM), is demonstrated in Fig. \ref{bm_architecture}. The model receives, as input, both a vector of unfolded features, as in Table \ref{metricsdescription}, as well as a context vector containing a numerical encoding of the game (e.g. jc3 = $[1]$, lis = $[2]$ etc.). The game context is then embedded into a vector of $l = 40$, similarly to what is done in words embedding for sentiment analysis \cite{chollet2015keras}. Differently from a one-hot encoding, this approach provides a non-sparse representation of the input while also projecting it into a multi-dimensional space where the relationships between elements become meaningful (e.g. game contexts which are similar to each other in respect to the objectives will be located closer to each other in the embedding space). Using an embedding for encoding the game contexts allows to have a representation that grows richer and richer the more categories are included into it. Obviously this would require to re-train the model whenever a new unseen context is added, practice however not just advisable but also routinely done in production. Next, the raw behavioural input and the embedded game context vector are concatenated along the temporal dimension into a single feature vector and a zero-padding re-applied where needed. At this point, a masking layer allows the model to more efficiently work with time-series of different lengths (i.e. skipping the computations for the zero-padded time-steps) and a dense layer, applied to each time step, to combine raw behavioural metrics and context in a new vector of $l = 40$. These newly obtained features are then modelled across time using a Long Short-Term Memory (LSTM) recurrent layer with $n = 100$ units. Therefore, the output of this LSTM Layer is a feature vector of $l = 100$ which is a latent representation of the input features across time and can be seen as providing a high-level representation of the behavioural state of the user during the OP. The final step of this architecture is to then take this high-level latent representation and pass it to a pair of shallow NNs, one tasked with estimating survival time and the other churn probability. These estimators are formed of a pair of densely connected layers, where the first layer has $n = 300$ units and the last has $n = 1$ units, the output of which will constitute the survival time and churn probability estimates. Like the two MLP models the BM was batch trained with a batch size of 256 until convergence using the ADAM optimizer, with learning rate adjusted through a cyclical policy \cite{smith2017cyclical, chollet2015keras}, minimizing the sum of the two losses. Similarly to the MLP models, the hidden layers used $ReLU$ as activation function whereas the two outputs units used respectively an $identity$ and $sigmoid$ functions for producing the survival time and churn probability estimates. For the survival time branch SMAPE was used as an objective function while for the churn estimation branch BCE was adopted. We applied two regularization techniques after the computations of the first layers of each shallow NN, batch normalization \cite{ioffe2015batch} and dropout \cite{srivastava2014dropout} ($rate = 0.1$). Additionally, following the intuition from \cite{gal2016dropout}, we employed dropout also at inference time for sampling from the model parameters and obtaining a distribution over the posterior so to be able to represent uncertainty in the model estimates. This was achieved by querying the model 50 times at prediction time and retaining all the produced values. When computing the performance metrics we then used the mean of the estimated values, since they roughly followed a normal distribution the mean could be seen as the value with highest probability. All the experiments were implemented in Python 3.6, with the algorithms for Experiment 1 and 2 provided by the library scikit-learn \cite{scikit-learn} and our novel BM architecture developed using Keras with Tensorflow as a back-end \cite{chollet2015keras}.
 
 \subsection{Data}
 To conduct our experiments, we gathered data from six different games published by our partner company, \textit{Square Enix Limited}. Focusing on maintaining heterogeneity in genre and platform, we considered the following titles: \emph{Hitman Go} (hmg), \emph{Hitman Sniper} (hms), \emph{Just Cause 3} (jc3), \emph{Just Cause 4} (jc4), \emph{Life is Strange} (lis), and \emph{Life is Strange: Before the Storm} (lisbf). A general description of each of these titles can be found in Table \ref{gamesdescription}. Data were gathered from any user playing between the game's release and February 2019, allowing us to adopt more robust sampling strategies which utilizes the breadth of virtually the entire user-base. To rule out possible `faulty' but not `naturally abnormal' data, we restricted the data cleaning process to a single filter applied at query time to ignore users having at least one of the considered metric over the game population's \nth{99} percentile. This allowed us to make little assumptions on the distribution of the data as well as providing a convenient stress test for eventual future applications.
 
-\paragraph{Defining the Observation Period}
+\begin{table}[h] \centering
+\tabcolsep=1pt\relax
+\caption{\textbf{Data-set Description}. For each game we retrieved 80,000 Churners and 80,000 Non-Churners randomly sampled from all the available users.}
+\label{gamesdescription}
+\begin{tabular}{@{}lrrrrrrl@{}}
+\toprule
+
+\multirow{2}{*}{\textbf{Game}} & \multicolumn{2}{l}{\textbf{Survival Time (Mins})} & \multirow{2}{*}{\textbf{Churners}} & \multirow{2}{*}{\textbf{Non Churners}} & \multicolumn{2}{l}{\textbf{Observation Period}} & \multirow{2}{*}{\textbf{Descriptive Tags}} \\ \cmidrule(lr){2-3} \cmidrule(lr){6-7}
+                      & \textbf{Min}                  & \textbf{Max}                  &                           &                               & \textbf{Min}                & \textbf{Max}               &                                \\ \midrule
+hmg                        & 11 & 260    & 80,000 & 80,000  & 1  & 7  & Mobile, Single Player, Strategy                       \\
+hms                        & 2 & 454     & 80,000 & 80,000  & 1  & 15 & Mobile, Single Player, Shooting Gallery                \\
+jc3                        & 32 & 12,695 & 80,000 & 80,000  & 1  & 20 & Console \& PC, Single Player, Open World, Action              \\
+jc4                        & 7 & 1,135   & 80,000 & 80,000  & 1  & 9  & Console \& PC, Single Player, Open World, Action              \\
+lis                        & 5 & 704     & 80,000 & 80,000  & 1  & 6  & Console \& PC, Single Player, Story Driven, Graphic Adventure \\
+libf                       & 14 & 1,214  & 80,000 & 80,000  & 1  & 10 & Console \& PC, Single Player, Story Driven, Graphic Adventure \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph*{Defining the Observation Period}
 Because we were interested in estimating survival time and churn probability based only on early user-game interactions it was important to define a cut-off at which point interactions were no longer be considered `early'. We call the period from the user's first interaction till this cut-off the observation period (OP). Choosing the length for the OP was not trivial as there is little indication in the literature about optimal cut-off values. Hence, we decided to visually inspect the data a-priori and extend rules proposed in \cite{drachen2016rapid, milovsevic2017early} to take into account natural inter-individual differences. Therefore, we defined the cut-off as:
 
 \begin{equation}
@@ -23,7 +43,7 @@ Because we were interested in estimating survival time and churn probability bas
 
 Where $S_t$ is the total number of game play sessions and $S_c$ is the number of game play sessions before the user completed the game for the first time. In this way we take the first \sfrac{1}{3} of all played sessions for players who churned and the first \sfrac{1}{3} of played sessions before a non-churning player completed the game for the first time. We apply this cut off to the ordered list of all recorded play sessions for a specific user. We decided to use game sessions as the temporal dimension, rather than total minutes played, since we believed it better adjusted for each user's `pace' (i.e. not all the users have the possibility to play at the same frequency). Since the length of the OP has a naturally different distribution between the churning and non-churning population, we stratified our sampling technique to maintain a similar ratio of OP lengths among churners and non churners. This becomes particularly relevant for Experiment 2 and 3 where the length of the OP could leak information in the churn probability estimation task. Summarizing, if a user for example had 9 total sessions recorded, we considered the first 3 for making estimations on what happened after the 9$^{th}$. It goes without saying that at production time the OP is defined only for generating the training samples, the model can be deployed at various stages of previously unseen time series which we simulate in our experiments with the test set. 
 
-\paragraph{Defining the Behavioural Metrics and Targets}
+\paragraph*{Defining the Behavioural Metrics and Targets}
 We considered a set of 5 metrics, easily generalizable across games and indicative of behavioural activity, and retrieved them temporally  (i.e. over each game session during the OP), see Table \ref{metricsdescription} for a description. Additionally, we acquired a single context feature specifying the game context from where the metrics were originated. For determining the targets for our survival and churn estimation tasks, we leveraged existing literature on churn prediction \cite{drachen2016rapid, milovsevic2017early, lee2018game, perianez2016churn, runge2014churn, kim2017churn, hadiji2014predicting, xie2015predicting} and survival analysis \cite{viljanen2018playtime, demediuk2018player, lee2018game, bertens2017games}, extending existing rules to accommodate the need to define churn and survival time in single player games with a defined life cycle (i.e. non-GaaS games). We took advantage of having access to the complete session history for all users to create a churn definition which was robust to the variance in play patterns across games, as it takes into account all the recorded inter-session distances. Therefore, the criteria we adopted for defining a user as churner were both: 
 
 \begin{enumerate}
@@ -57,38 +77,46 @@ For better adjusting for inter-individual differences, we could have applied for
 }
 \end{table}
 
-\paragraph{Data Preparation}We adopted specific data preparation procedures for each experiment. For the first analysis we collapsed the data over the temporal dimension retrieving mean and standard deviation of each considered features, to this concatenating a one-hot encoded transformation of the context metric. For the second and third experiments we kept the data in the original temporal form. In Experiment 3 only we treated the game context slightly differently, numerically encoding it and separating it from the other feature matrix. Since in Experiment 2 and 3 the length of the OP differed between users, we zero padded each sequence of considered sessions to the length of the longest sequence in the data-set. For each experiment we created a tuning and validation subsets (i.e. 20 and 80 \% of the original data-set) via stratified shuffle split \cite{scikit-learn}, employing the first for hyper-parameters searching and the second for model evaluation.
+\paragraph*{Data Preparation}We adopted specific data preparation procedures for each experiment. For the first analysis we collapsed the data over the temporal dimension retrieving mean and standard deviation of each considered features, to this concatenating a one-hot encoded transformation of the context metric. For the second and third experiments we kept the data in the original temporal form. In Experiment 3 only we treated the game context slightly differently, numerically encoding it and separating it from the other feature matrix. Since in Experiment 2 and 3 the length of the OP differed between users, we zero padded each sequence of considered sessions to the length of the longest sequence in the data-set. For each experiment we created a tuning and validation subsets (i.e. 20 and 80 \% of the original data-set) via stratified shuffle split \cite{scikit-learn}, employing the first for hyper-parameters searching and the second for model evaluation.
 
-\subsection{Model Testing Pipeline}
+\subsection{Model Comparison Procedure}
 \lorem
 
 \subsection{Results}
 \lorem
 
+\subsection{Model Criticism}
+\lorem
 
-
-\section{Model Architecture II}
+\section{Dynamic Prediction of Future Behavioural Intensity}
 \label{model_architecture_1}
+\lorem
+
+\subsection{Model Description}
 \lorem
 
 \subsection{Dataset}
 \lorem
 
+\subsection{Model Comparison Procedure}
+\lorem
+
 \subsection{Results}
 \lorem
 
-\subsection{Model Testing Pipeline}
+\subsection{Model Criticism}
 \lorem
 
-\section{Model Architecture III}
+\section{Dynamic Prediction of Future Behavioural Intensity with Environmental and Game Covariates}
 \label{model_architecture_1}
 \lorem
 
-\subsection{Dataset}
-\lorem
-
-\subsection{Model Testing Pipeline}
+\subsection{Model Comparison Procedure}
 \lorem
 
 \subsection{Results}
+\lorem
+
+
+\section{Discussion}
 \lorem
