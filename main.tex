@@ -9,7 +9,6 @@
 \usepackage[super]{nth}
 \usepackage{graphicx}
 \usepackage{textcomp}
-\usepackage[table, x11names]{xcolor}
 \usepackage{multirow}
 \usepackage{placeins}
 \usepackage{enumitem}
@@ -20,6 +19,7 @@
 \usepackage{authblk}
 \usepackage[tracking=true]{microtype}
 \usepackage[toc,page]{appendix}
+\usepackage[usenames,dvipsnames]{color}
 % captioning
 \usepackage{caption}
 \captionsetup[figure]{labelfont=bf,textfont=md,font=footnotesize}
@@ -49,7 +49,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\lorem}{Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\\}
+\newcommand{\lorem}{\textcolor{red}{Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\\}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -83,7 +83,7 @@ I declare that this thesis is a presentation of original work and I am the sole 
 
 \chapter*{General Introduction}
 \label{chapter_intro}
-\input{chapters/introduction/introduction}
+\input{chapters/introduction}
 
 \tableofcontents
 
@@ -91,27 +91,27 @@ I declare that this thesis is a presentation of original work and I am the sole 
 
 \chapter{Literature Review}
 \label{chapter_lit_review}
-\input{chapters/chapter_1/chapter_1}
+\input{chapters/chapter_1}
 
 \chapter{From Theory to Modelling}
 \label{chapter_theory_modelling}
-\input{chapters/chapter_2/chapter_2}
+\input{chapters/chapter_2}
 
 \chapter{Model Implementation and Testing}
 \label{chapter_implementation_testing}
-\input{chapters/chapter_3/chapter_3}
+\input{chapters/chapter_3}
 
 \chapter{Representation Analysis}
 \label{chapter_repr_anal}
-\input{chapters/chapter_4/chapter_4}
+\input{chapters/chapter_4}
 
 \chapter{Model Application and Pipeline}
 \label{chapter_appliction}
-\input{chapters/chapter_5/chapter_5}
+\input{chapters/chapter_5}
 
 \chapter{General Discussion}
 \label{chapter_general_discussion}
-\input{chapters/general_discussion/general_discussion}
+\input{chapters/general_discussion}
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography}
