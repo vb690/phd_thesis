@@ -82,7 +82,54 @@ For better adjusting for inter-individual differences, we could have applied for
 \paragraph*{Data Preparation}We adopted specific data preparation procedures for each experiment. For the first analysis we collapsed the data over the temporal dimension retrieving mean and standard deviation of each considered features, to this concatenating a one-hot encoded transformation of the context metric. For the second and third experiments we kept the data in the original temporal form. In Experiment 3 only we treated the game context slightly differently, numerically encoding it and separating it from the other feature matrix. Since in Experiment 2 and 3 the length of the OP differed between users, we zero padded each sequence of considered sessions to the length of the longest sequence in the data-set. For each experiment we created a tuning and validation subsets (i.e. 20 and 80 \% of the original data-set) via stratified shuffle split \cite{scikit-learn}, employing the first for hyper-parameters searching and the second for model evaluation.
 
 \subsection{Model Comparison}
-\lorem
+For all experiments we applied the same procedure: first, determined the best hyper-parameters via grid search 10-fold stratified cross validation \cite{scikit-learn} on the tuning set then evaluated performance via 10-fold stratified cross validation on the validation set. In all experiments, we re-scaled the considered metric separately for each game in outliers-robust way, as in:
+
+\begin{equation}
+\label{robustscaler}
+    \text{RobustRescale}=
+        \dfrac
+            {\mathbf{x} - Q_2(\mathbf{x})}
+            {Q_3(\mathbf{x}) - Q_1(\mathbf{x})}
+\end{equation}
+
+where $\mathbf{x}$ is the feature vector to be re-scaled and $Q_n$ is the $n^{th}$ quartile for this game. The performance metric that we chose for our survival task was the Symmetric Mean Absolute Percentage Error (SMAPE), defined as:
+
+
+
+where $N$ is the collection of all the users in the considered set and $\hat{y_i}$ and $y_i$ are respectively estimated survival time and ground truth value for user \textit{i}. SMAPE was implemented because its scale invariance allowed better comparisons of results across game contexts. For the churn estimation task the chosen metric was the F1 score (F1), defined as:
+
+\begin{equation}
+\label{f1}
+    \text{F1}=
+        2 \cdot 
+        \dfrac
+            {(precision \cdot recall)}
+            {(precision + recall)}
+\end{equation}
+
+with $precision =\frac {TP}{(TP + FP)}$ and $recall = \frac {TP}{(TP + FN)}$, where \textit{TP, FP, TN, FN} stand for True Positives, False Positives, True Negatives and False Negatives. We chose the macro-averaged F1 (i.e. employing the unweighted mean of precision and recall for both classes) since our data-set was perfectly balanced.
+
+\paragraph*{Competing Models}
+As well as our novel model for joint survival time and churn probability estimation we discuss several models for disjoint estimation, learning only survival time or churn probability, in order to conduct our experiments and  compare our model with existing techniques. Furthermore, for providing a baseline comparison in our experiments we employed a mean model (MM), which generates predictions based on the average of the targets in the training set. The choice of disjoint estimation models was dictated by a series of needs: widespread usage in research and industry settings, ability to capture linear and non-linear interactions between features and most importantly capability to train on large data-sets (e.g. matrix of dimension $\approx10^6\times10^2$). Four models were employed in Experiments 1 and 2. Firstly, a variant of Regularized Regression, ElasticNet (EN) \cite{zou2005regularization}, for survival estimation and Logistic Regression (LR) for churn probability estimation. Secondly, a pair of similar Multi-Layers Perceptron Neural Networks, one tasked to perform survival time regression, MLPr, and one to perform churn classification, MLPc. We felt that given the similarities between linear models and NNs, which can be seen as a stacked version of the former with more `expressive power', the chosen algorithms constituted a natural progression in the modelling approach. For EN the best hyper-parameters were $\alpha = 0.1$ and a ratio of $0.5$ between l1 and l2 regularization. For LR an l1 regularization with $C = 0.01$. Both MLPr and MLPc employed an l2 penalty of $0.01$ and utilized a 3 layers architecture with 200, 100 and 50 hidden units. For all hidden units a $ReLU(z) = max(0, z)$ activation function was used, while an  $identity(z) = z$ and $ sigmoid(z) = \frac {1} {1 + \epsilon^{-z}}$ functions were respectively used as final activations for the MLPr and MLPc, where $z$ is a weighted sum of the hidden units of the previous layer. When training the MLP based models a small sub-set was extracted from the training set which represented 10\% of the data. This sub-set was used to evaluate convergence of the model and stop the training phase before over-fitting could occur. For both models convergence was determined if the loss did not improve for 3 epochs. The networks were trained using a batch size of 256 and optimized using the Adaptive Moment Estimation (ADAM) optimizer \cite{kingma2014adam}. Because survival time estimation is a regression task and churn prediction is classification task different loss function were used, Mean Squared Error (MSE) and Binary Cross Entropy (BCE) respectively. These are defined as:
+
+\begin{equation}
+\label{mae}
+    \text{MSE}=
+        \dfrac
+            {1}
+            {N}
+            \sum\limits_{i=1}^{N}  (y_i - \hat{y_i})^2
+\end{equation}
+\begin{equation}
+\label{bce}
+    \text{BCE}=
+        -\dfrac
+            {1}
+            {N}
+        \sum\limits_{i=1}^{N}  y_i \cdot log(\hat{y_i}) + (1-y_i) \cdot log(1 - \hat{y_i})
+\end{equation}
+
+where $N$ is the size of the batch, and $\hat{y_i}$ and $y_i$ are respectively estimations provided by the model and ground truth value for the $i_{th}$ element in the batch. 
 
 \subsection{Results}
 \lorem
