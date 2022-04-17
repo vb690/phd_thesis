@@ -21,12 +21,12 @@ To conduct our experiments, we gathered data from six different games published 
 
 \multirow{2}{*}{\textbf{Game}} & \multicolumn{2}{l}{\textbf{Survival Time (Mins})} & \multirow{2}{*}{\textbf{Churners}} & \multirow{2}{*}{\textbf{Non Churners}} & \multicolumn{2}{l}{\textbf{Observation Period}} & \multirow{2}{*}{\textbf{Descriptive Tags}} \\ \cmidrule(lr){2-3} \cmidrule(lr){6-7}
                       & \textbf{Min}                  & \textbf{Max}                  &                           &                               & \textbf{Min}                & \textbf{Max}               &                                \\ \midrule
-hmg                        & 11 & 260    & 80,000 & 80,000  & 1  & 7  & Mobile, Single Player, Strategy                       \\
-hms                        & 2 & 454     & 80,000 & 80,000  & 1  & 15 & Mobile, Single Player, Shooting Gallery                \\
-jc3                        & 32 & 12,695 & 80,000 & 80,000  & 1  & 20 & Console \& PC, Single Player, Open World, Action              \\
-jc4                        & 7 & 1,135   & 80,000 & 80,000  & 1  & 9  & Console \& PC, Single Player, Open World, Action              \\
-lis                        & 5 & 704     & 80,000 & 80,000  & 1  & 6  & Console \& PC, Single Player, Story Driven, Graphic Adventure \\
-libf                       & 14 & 1,214  & 80,000 & 80,000  & 1  & 10 & Console \& PC, Single Player, Story Driven, Graphic Adventure \\ \bottomrule
+hmg                        & 11 & 260    & 80,000 & 80,000  & 1  & 7  & Mobile \\ Strategy                       \\
+hms                        & 2 & 454     & 80,000 & 80,000  & 1  & 15 & Mobile \\ Shooting Gallery                \\
+jc3                        & 32 & 12,695 & 80,000 & 80,000  & 1  & 20 & Console \\ Action Open World             \\
+jc4                        & 7 & 1,135   & 80,000 & 80,000  & 1  & 9  & Console \\ Action Open World           \\
+lis                        & 5 & 704     & 80,000 & 80,000  & 1  & 6  & Console \\ Graphic Adventure \\
+libf                       & 14 & 1,214  & 80,000 & 80,000  & 1  & 10 &  Console \\ Graphic Adventure \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -142,7 +142,9 @@ Informed by the results of Experiment 1 and 2, we proceeded in evaluating the pe
 \input{tables/chapter_3/bifurcating_model_performance}
 
 \subsection{Model Criticism}
-\lorem
+The results of our experiments highlight how employing metrics indicative of behavioural activity in early user-game interactions allowed our model to estimate proxy measures of future disengagement and sustained engagement. This suggests that the early user-game interactions might be relevant for characterizing long-term engagement as well as that measures of behavioural activity could be a useful index for its inference \cite{milovsevic2017early, mirza2013does}. We also found how the use of non-parametric models, able to capture non-linear interactions between features provided substantial improvements in estimating proxy measures of engagement when compared to simpler, although computationally cheaper, parametric ones. We also show that including temporal structure explicitly provides a slight edge over metrics representations which are collapsed over time, moreover we noticed that this improvement is more pronounced and consistent when employing approaches that explicitly model temporality, i.e. the BM. This is in accordance with the aforementioned theoretical formalization of engagement as a dynamic process rather than a static construct \cite{o2008user}. Finally the visual representation of the performance of the BM highlighted how the proposed methodology generalizes well when trying to predict survival time and churn probability as well as successfully incorporating measures of uncertainty in its estimations. 
+
+While the work presented here crosses various game genres, it does not include all the major ones (e.g. multi-player titles). Moreover, despite acknowledging the complexity of the chosen estimation task, better model performance would have been desirable. Finally, the heavy dependence on a supervised approach for learning the context embedding and the inability to fully exploit the LSTM potential (i.e. our time series were at maximum 20 steps long) limited the potential of our approach. Future work will try to improve on these drawbacks considering more game genres, integrating approaches for learning context in an unsupervised way and taking into consideration longer streams of sessions. We will also try to explicitly model the contribution of elements external to the game environment for taking into account the impact of real-world factors (e.g. day of the week or time of the day).
 
 \section{Dynamic Prediction of Future Behavioural Intensity}
 \label{model_architecture_1}
