@@ -137,7 +137,14 @@ While the work presented here crosses various game genres, it does not include a
 \lorem
 
 \subsection{Model Design}
-\lorem
+Finally to evaluate the effect of recurrency in combination with non-linearity, we designed a hybrid approach (\textit{RNN}) integrating recurrent and feedforward operations in a single ANN. Despite being markedly different, this last architecture shares similarities with the technique proposed by Calhoun et. al. \cite{calhoun2019unsupervised} where latent states were generated dynamically and employed by Generalized Linear Models for producing predictions of observed behaviours. A representation of the computational graphs constituting the parametric models can be seen in Figure \ref{fig: rnn}. It should be noted that E-Net is architecturally equivalent to MLP with the only difference being the replacement of stacked feedforward layers with a single layer with linear activation. As illustrated in Figure \ref{fig: ffnn_rnn} the inputs to each model were sequences of the same behavioural metrics reported in Table \ref{metricsdescription} plus the associated game object while the targets were simply the lead 1 version of the same sequences. We want to highlight how each model was fit to sequences coming from the same game object and that the predictions only pertained the behavioural metrics. Indeed, the aim of each model was to solve
+\begin{equation}
+    \begin{gathered}
+        E(B_{t+1} | \{B_{t}, B_{t-1}, \dots \} , O)
+        \label{model_obj}
+    \end{gathered}
+\end{equation}
+jointly for each $O$ present in the data. All the models adopted a multi-task approach (see section \ref{manifold_learning}) and were designed to perform estimation in a sequence-to-sequence fashion: given an input sequence of length $T$ its lead-1 version was predicted. The MLP and RNN models both used a $ReLU$ activation function. The function has shape $ReLU(x) = max(0, x)$ with $x$ being the value computed by a single hidden unit. All the models, except for \textit{Median}, were implemented using Tensorflow's high level API "Keras" \cite{tensorflow2015-whitepaper,chollet2015keras}. The $Median$ model was implemented using the libraries for scientific computing Pandas and Numpy \cite{reback2020pandas,harris2020array}.
 
 \input{diagrams/chapter_3/rnn_32}
 
@@ -149,8 +156,54 @@ The telemetry (see Table \ref{metricsdescription}) were selected to be generaliz
 \input{tables/chapter_3/descriptive_statistics_32}
 
 \subsection{Model Comparison}
-\lorem
-\input{diagrams/chapter_3/rnn_33}
+When querying the data from the game servers, we excluded from the random sampling procedure individuals having at least one of the considered behavioural metrics over the game population's \nth{99} percentile. This allowed us to eliminate potentially faulty data which are often present when dealing with telemetry. At this point data were re-arranged in a format suitable for time series modelling (i.e. arrays of shape $(batch\times T \times B)$ with $T$ being the number of available game sessions and $B$ the number of considered behavioural metrics) and randomly split into a tuning (i.e. 10 \%) and validation set (i.e. 90 \%). For the sake of clarity we report an example of how the data from a game session are generated and how they are parsed by the models.\\
+\\
+\textit{
+"A user decides, 36 hours after the release of game X, to enter the game world for the first time. This is when a session starts and actual playing behaviour can be observed. During this session they engage in various activities leading to 20 non-unique and user-initiated actions (e.g. being attacked by a non-playable character is not counted as a valid action). After roughly 60 minutes spent playing, the user exits the game world and the session ends. Of this session, 80\% of time has been spent actively playing, the remaining 20\% has seen the game on pause or the user away from the console (i.e. idle time). After 48 hours the user logs into the game world again and a new session starts"}\\
+\\
+What we described here would correspond to a single time step $t_{1}$ in the sequence $T$ of total interactions (i.e. sessions) between the user and the specific game context X. The models will parse this session as a vector of length 4 with values 36, 20, 60, 80 and 20 along with another vector of length 1 containing the numerical index for the game. When all the sessions are observed the models will receive as inputs sequences of length $T$ of the same vectors. 
+
+\paragraph{\textbf{Performance Analysis}} 
+\label{perf_analysis}
+The first step in our performance analysis aimed to control for the contribution of hyper-parameters in the performance of the parametric models (especially for MLP and RNN). The choice of factors such as the number of layers and hidden units can influence the number of free parameters and expressive power of an ANN. Manually picking their optimal value is often a challenging combinatorial problem that can lead to unexpected outcomes if left to the subjective choice of the experimenter. Therefore, to find the best hyperparameters we adopted a more impartial and efficient approach relying on algorithmic search. This was done using the Keras Tuner implementation \cite{omalley2019kerastuner} of the Hyperband algorithm \cite{li2017hyperband}. Hyperband is an optimized version of random search that achieves faster convergence through adaptive resources allocation and early termination of training. It can lead to better or equivalent results to other optimization algorithms but in a fraction of the time \cite{li2017hyperband}. When initializing the tuning step we allowed each model to grow as much as the others (except for E-Net, which,  due to the fact that it is a linear model, is naturally constrained to a fixed number of parameters) so that any observed difference in number of parameters was related to characteristics of the model architecture. The tuning step was conducted running one full iteration of Hyperband with a budget of 40 epochs \footnote{See  \cite{li2017hyperband,hyperwebs} for a detailed description of the Hyperband technique.} on the tuning set. To trigger early stopping for a specific configuration of hyperparameters, we monitored the decrease in loss over a 20\% random sample of the tuning set (i.e. the validation tuning set) and we terminated training when the loss reduced by less than $\delta = 1\mathrm{e}{-4}$ for 10 consecutive epochs. Once the best set of hyperparameters was found we proceeded to fit all the models specified in section \ref{models} on the training set using a 10-fold Cross Validation Strategy. This  divided the validation set in 10 equally sized folds and iteratively used 9 of them for training and 1 for testing. The continuous inputs in the training data were min-max scaled according to the formula
+\begin{equation}
+  \begin{gathered} 
+  \label{min_max}
+        MinMax(x) =\frac{x - \min(x)} {\max(x) - \min(x)} 
+  \end{gathered}
+\end{equation}
+where $x$ is the input vector to be scaled, while the categorical input (i.e. game object) was encoded ordinally. In order to take into account the contributions of time, game and target, the performance of each model was given by computing the Symmetric Mean Percentage Error (SMAPE) \cite{zhu2017deep} for each combination of the aforementioned dimensions (e.g. SMAPE of Session Time at $t1$ for the game object hmg). Each model was trained for a maximum of 200 epochs and interrupted using the same early stopping strategy mentioned above (i.e. absence of $\delta$ reduction in loss on a 20\% hold-out for 10 consecutive epochs). To maintain the ability to fit each model on temporal series of varying length, we adopted a data generator approach \footnote{See \cite{chollet2015keras,tensorflow2015-whitepaper} for implementation details.} feeding data to the models in random batches of 256 time series with constant length within a batch. The models were trained with stochastic gradient descent using the Adaptive Moment Estimation (Adam) \cite{kingma2014adam} algorithm to find the set of parameters minimizing the SMAPE between the targets and the predictions generated by the model. 
+\begin{equation}
+  \begin{gathered} 
+  \label{smape}
+     SMAPE(y, \widehat{y}) = 
+    \frac{1}{N} 
+    \sum_{i=1}^{N}
+    \frac{| y_{i} - \widehat{y}_{i} |} {|y_{i}| + |\widehat{y_{i}}|}  
+  \end{gathered}
+\end{equation}
+here $y$ and $\widehat{y}$ are respectively the ground truth and the estimate produced by the model while $N$ indicates the size of the batch. The SMAPE is bounded between 0 and 100 and can be interpreted as percentage deviation from the target with lower values indicating better model fit. The choice of SMAPE was dictated by the fact that the targets were expressed on largely different scales (i.e. coming from different games and expressed on different units of measure see Table \ref{metricsdescription}) and therefore required a loss function measuring relative distance from the target. To evaluate the overall performance, we first summed the SMAPE relative to each target in a single global performance indicator: this is the loss function that each model attempts to minimize during training. W then divided the total by 5 (i.e. the total number of targets) in order to express the metric in its original scale (i.e. 0 to 100). This was then regressed using a Linear Mixed-effects Model (LMM) with fold number, game object and time as random effects and model type as fixed effect (treatment coded with RNN as reference). Subsequently, for a more thorough investigation of model performance we conducted the same regression analysis separately on each target. Both regression analyses were followed by post-hoc comparisons (i.e. t-tests with Bonferroni correction) for testing the following pairwise hypotheses on the estimated coefficients: Lag 1 $<$ Median $<$ ENet $<$ MLP. All statistical analyses were conducted using the python library statsmodels \cite{seabold2010statsmodels}. 
+
+\subsection{Models} 
+\label{models}
+When defining the models used for evaluating our hypotheses, we first established two reasonable single-parameter baselines. The first is a \textit{Lag 1} model producing predictions according to the following rule:
+\begin{equation}
+   \begin{gathered}  
+     B_{t+1} = B_{t}
+     \label{lag_1}
+  \end{gathered}
+\end{equation}
+here $t$ represent a single game session in a sequence of $T$ observed interactions while $B$ are the behavioural metrics described in section \ref{data}. The second is a \textit{Median} model computing the expectancy of each of the 4 targets according to the formula:
+\begin{equation}
+  \begin{gathered}  
+    \overline{B_{t+1}} = \frac
+      {\sum_{i=1}^{t+1} wB_{i}}
+      {\sum_{i=1}^{t+1} w }\\
+    B_{t+1} = median(\overline{B_{t+1}}) 
+    \label{median}
+  \end{gathered}
+\end{equation}
+here $\overline{B_{t+1}}$ is an exponentially weighted average of all the $B_t$ up to $t+1$ observed when fitting the model. This is computed separately for every individual in the dataset and the median value of each of the 4 targets is used a a constant prediction. These apparently naive models provide a surprisingly robust prediction baseline for time series that are not white noise \cite{hyndman2018forecasting} other than having a nice interpretation in terms of behavioural momentum \cite{nevin2000behavioral}: in conditions of high experienced reward the behaviour of an individual tends to be consistent over time (i.e. resistant to change). An ElasticNet (\textit{E-Net}) \cite{zou2005regularization}, a form of additive model combining both $l1$ and $l2$ regularization, was used to evaluate the performance of simple linear functions. To test the effect of non linearity, a Multilayer Perceptron (\textit{MLP}), the most common type of deep feedforward ANN, was used. 
 
 \subsection{Results}
 \lorem
@@ -161,6 +214,9 @@ The telemetry (see Table \ref{metricsdescription}) were selected to be generaliz
 \section{Dynamic Prediction of Future Behavioural Intensity with Environmental and Game Covariates}
 \label{model_architecture_1}
 \lorem
+
+\subsection{Model Design}
+\input{diagrams/chapter_3/rnn_33}
 
 \subsection{Data}
 \lorem
