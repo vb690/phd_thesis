@@ -206,7 +206,29 @@ here $t$ represent a single game session in a sequence of $T$ observed interacti
 here $\overline{B_{t+1}}$ is an exponentially weighted average of all the $B_t$ up to $t+1$ observed when fitting the model. This is computed separately for every individual in the dataset and the median value of each of the 4 targets is used a a constant prediction. These apparently naive models provide a surprisingly robust prediction baseline for time series that are not white noise \cite{hyndman2018forecasting} other than having a nice interpretation in terms of behavioural momentum \cite{nevin2000behavioral}: in conditions of high experienced reward the behaviour of an individual tends to be consistent over time (i.e. resistant to change). An ElasticNet (\textit{E-Net}) \cite{zou2005regularization}, a form of additive model combining both $l1$ and $l2$ regularization, was used to evaluate the performance of simple linear functions. To test the effect of non linearity, a Multilayer Perceptron (\textit{MLP}), the most common type of deep feedforward ANN, was used. 
 
 \subsection{Results}
-\lorem
+At the level of global performance the RNN model markedly outperformed all competing approaches as clearly shown in Figure \ref{model_comp_coll}. This can be also seen in the results of the regression (see Table \ref{collapsed_target_lmm}) and  \textit{post hoc} analysis (see Table \ref{collapsed_target_lmm_post_hoc}). From the \textit{post hoc} analysis we can also observe how all the pairwise hypotheses presented in paragraph \ref{perf_analysis} are confirmed. Here model performance is given by the sum of all the losses produced by the five targets and therefore provides a general indicator of model fit where lower values indicate a better performance overall.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\columnwidth]{images/chapter_3/performance_collapsed_32.png}
+\caption{\textbf{Aggregated comparison of model performance.} Overall, our approach (RNN) outperforms all the competing approaches. Box-plots show the 10-fold cross-validation performance expressed as the total percentage of error (i.e. SMAPE) of each model over the five targets.}
+\label{model_comp_coll} 
+\end{figure}
+
+\input{tables/chapter_3/collapsed_lmm_perfromance_32}
+\input{tables/chapter_3/collapsed_posthoc_performance_32}
+
+The superiority of the RNN model can still be observed when comparing the models on each target separately. However, the size of the effect varies depending on the target (see Table \ref{exploded_target_lmm}). The same trend is also present in the \textit{post hoc} analysis (see Table \ref{exploded_target_lmm_post_hoc}) where we observe only a partial confirmation of the pairwise hypotheses. The ENet model is outperformed by the Median baseline for three targets, namely Future Active Time, Session Time and Session Activity. All the coefficients in the regression analyses and the differences in the \textit{post hoc} analyses are non-standardized and can be interpreted as absolute changes in percentage error (i.e. SMAPE). In order to make these values more easily interpretable, we can use the information Table \ref{game_description}. For example, knowing that the median Session Time for the jc3 object is 162 minutes we can derive that when the RNN model achieves a SMAPE of 30\% in predicting Future Session Time, this equates on average to an absolute error of $1.62 \times 30 \sim 48$ minutes. All the p-values in the \textit{post hoc} analyses are Bonferroni corrected for multiple comparisons. The results of the statistical analyses suggest positive additive effects of non-linearity and recurrency on model performance both at the level of global and target-specific performance. This effect is more pronounced for certain targets (e.g. Future Session Time, Future N° Sessions) than for others (e.g. Future Absence, Future Active Time). Moreover, looking at Figure \ref{model_comp_non_coll} it appears that RNN improved on MLP (i.e. the second best model) using roughly half the parameters and per-epoch computation time. This could indicate that recurrency both improves model fit and allows for more efficient use of the available parameters.
+
+\input{tables/chapter_3/exploded_lmm_performance_32}
+\input{tables/chapter_3/exploded_posthoc_performance_32}
+
+\begin{figure*}[h]
+\centering
+\includegraphics[width=.8\textwidth]{images/chapter_3/performance_exploded_32.png}
+\caption{\textbf{Dis-aggregated comparison of models' performance.}. Our approach (RNN) outperformed all competing ones on each target. It consistently used fewer parameters and had shorter computation time than the second best performing model. Box-plots show the 10-fold cross-validation performance expressed as percentage of error (i.e. SMAPE) of each model for the five targets. The bar-plot on the top row indicates the number of free parameters for each model while the bar plot on the bottom row shows the average time for each training epoch. Both bar-plots are $log_{10}$ scaled.}
+\label{model_comp_non_coll} 
+\end{figure*}
 
 \subsection{Model Criticism}
 \lorem

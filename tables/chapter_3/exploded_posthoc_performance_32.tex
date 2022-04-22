@@ -1,0 +1,29 @@
+\begin{table}[h]
+\centering
+\caption{LMM Post-Hoc on Non-Collapsed Targets}
+\label{exploded_target_lmm_post_hoc}
+\begin{tabular}{ccccc}
+\hline
+\textbf{Contrast}  & \textbf{$\beta_1$-$\beta_2$} & \textbf{Z} & \textbf{p} & \textbf{95\% C.I.}                  \\ \hline
+\multicolumn{5}{c}{\textbf{Future Absence}}                                                                         \\ \hline
+\textbf{Lag 1 - Median} & -2.06                & -11.305     & \textless .01   & -2.42 - -1.70                     \\
+\textbf{Median - ENet}           & 7.76                & 42.461     & \textless .01   & 7.40 - 8.12                     \\
+\textbf{ENet - MLP}          & 1.17                & 6.438     & \textless .01   & .81 - 1.535                    \\ \hline
+\multicolumn{5}{c}{\textbf{Future Active Time}}                                                                     \\ \hline
+\textbf{Lag 1 - Median} & 6.55                & 106.513      & \textless .01  & 6.433 - 6.67                     \\
+\textbf{Median - ENet}           & -1.78                & -29.037    & \textless .01  & -1.9 - -1.66                     \\
+\textbf{ENet - MLP}          & 2.14                & 34.812     & \textless .01  & 2.02 - 2.26                     \\\hline
+\multicolumn{5}{c}{\textbf{Future Session Time}}                                                                     \\ \hline
+\textbf{Lag 1 - Median} & 1.16                & 10.201     & \textless .01  & .94 - 1.39                     \\
+\textbf{Median - ENet}            & -.35                & -3.141     & \textless .01  & -.58 - -.13                     \\
+\textbf{ENet - MLP}          & 3.72                & 32.579     & \textless .01  & 3.5 - 3.95                     \\ \hline
+\multicolumn{5}{c}{\textbf{Future Session Activity}}                                                                 \\ \hline
+\textbf{Lag 1 - Median} & 2.15                & 20.146     & \textless .01  & \multicolumn{1}{l}{1.94 - 2.36} \\
+\textbf{Median - ENet}            & -.04                & -.441     &  1.  & \multicolumn{1}{l}{-.257 - .163} \\
+\textbf{ENet - MLP}          & 3.05                & 28.558     & \textless .01  & \multicolumn{1}{l}{2.84 - 3.26} \\ \hline
+\multicolumn{5}{c}{\textbf{Future N° Sessions}}                                                                      \\ \hline
+\textbf{Lag 1 - Median} & 4.83                & 9.264     & \textless .01  & 3.8 - 5.85                     \\
+\textbf{Median - ENet}            & 10.89                & 20.889     & \textless .01  & 9.87 - 11.91                     \\
+\textbf{ENet - MLP}          & 3.79                & 7.272     & \textless .01  & 2.77 - 4.81                     \\\hline
+\end{tabular}
+\end{table}

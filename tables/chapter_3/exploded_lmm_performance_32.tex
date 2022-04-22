@@ -1,0 +1,39 @@
+\begin{table}[h]
+\centering
+\caption{Results of LMM on Non-Collapsed Targets}
+\label{exploded_target_lmm}
+\begin{tabular}{ccccc}
+\hline
+\textbf{Model}  & \textbf{$\beta$} & \textbf{Z} & \textbf{p} & \textbf{95\% C.I.}                  \\ \hline
+\multicolumn{5}{c}{\textbf{Future Absence}}                                                                         \\ \hline
+\textbf{Intercept (RNN)} & 54.46                & 144.316     & \textless .01   & 53.72 - 55.20                     \\
+\textbf{Lag 1}           & 7.40                & 40.509     & \textless .01   & 7.04 - 7.76                     \\
+\textbf{Median}          & 9.47                & 51.814     & \textless .01   & 9.11 - 9.83                     \\
+\textbf{ENet}            & 1.71                & 9.353     & \textless .01   & 1.35 - 2.06                     \\
+\textbf{MLP}             & .53                & 2.915     & \textless .01   & .175 - .891                       \\ \hline
+\multicolumn{5}{c}{\textbf{Future Active Time}}                                                                     \\ \hline
+\textbf{Intercept (RNN)} & 23.36                & 20.019      & \textless .01  & 21.78 - 24.93                     \\
+\textbf{Lag 1}           & 7.32               & 119.028    & \textless .01  & 7.2 - 7.44                     \\
+\textbf{Median}          & .77                & 12.515     & \textless .01  & .649 - .891                     \\
+\textbf{ENet}            & 2.55                & 41.551     & \textless .01  & 2.43 - 2.67                     \\
+\textbf{MLP}             & .41                & 6.739      & \textless .01  & .294 - .535                     \\ \hline
+\multicolumn{5}{c}{\textbf{Future Session Time}}                                                                     \\ \hline
+\textbf{Intercept (RNN)} & 30.02                & 63.663     & \textless .01  & 29.1 - 30.95                     \\
+\textbf{Lag 1}            & 5.62                & 49.158     & \textless .01  & 5.39 - 5.83                     \\
+\textbf{Median}          & 4.45                & 38.957     & \textless .01  & 4.23 - 4.67                     \\
+\textbf{ENet}            & 4.81                & 42.098     & \textless .01  & 4.59 - 5.03                     \\
+\textbf{MLP}             & 1.08                & 9.529      & \textless .01  & .86 - 1.31                     \\ \hline
+\multicolumn{5}{c}{\textbf{Future Session Activity}}                                                                 \\ \hline
+\textbf{Intercept (RNN)} & 31.04                & 70.241     & \textless .01  & \multicolumn{1}{l}{30.17 - 31.9} \\
+\textbf{Lag 1}            & 6.52                & 61.025     & \textless .01  & \multicolumn{1}{l}{6.31 - 6.73} \\
+\textbf{Median}          & 4.37                & 40.879     & \textless .01  & \multicolumn{1}{l}{4.16 - 4.58} \\
+\textbf{ENet}            & 4.42                & 41.319     & \textless .01  & \multicolumn{1}{l}{4.21 - 4.63} \\
+\textbf{MLP}             & 1.36                & 12.762     & \textless .01  & \multicolumn{1}{l}{1.15 - 1.57} \\ \hline
+\multicolumn{5}{c}{\textbf{Future N° Sessions}}                                                                      \\ \hline
+\textbf{Intercept (RNN)} & 26.77                & 7.445     & \textless .01  & 19.72 - 33.81                     \\
+\textbf{Lag 1}            & 23.17                & 44.430     & \textless .01  & 22.15 - 24.19                     \\
+\textbf{Median}          &  18.34              & 35.166     & \textless .01  & 17.31 - 19.36                     \\
+\textbf{ENet}            & 7.44                & 14.277     & \textless .01  & 6.42 - 8.46                     \\
+\textbf{MLP}             & 3.65                & 7.005      & \textless .01  & 2.63 - 4.67                       \\ \hline
+\end{tabular}
+\end{table}
