@@ -46,24 +46,7 @@ We considered a set of 5 metrics, easily generalizable across games and indicati
 
 For better adjusting for inter-individual differences, we could have applied formula \ref{inactivityrule} to each user individually but this could have created accuracy issue for individuals with very few recorded sessions. Therefore, we opted for a conservative but more robust approach applying inactivity ($\mathbf{x}$) $\forall \mathbf{x} \in X$ where $X$ is the collection of all the considered games and $\mathbf{x}$ is the vector of inter-sessions distances in minutes for a specific game. The use of formula \ref{inactivityrule} allowed us to estimate an inactivity period which was not arbitrarily chosen but statistically defined as ‘extraordinary long’ in accordance with characteristics of play patterns in a particular game. For defining the survival time, we simply computed the total amount of Play Time in minutes for a user minus the amount of Play Time during the OP.
 
-\begin{table}[h] \centering
-\caption{\textbf{Considered Metrics over Sessions}}
-\label{metricsdescription}
-\resizebox{0.5\textwidth}{!}{
-\begin{tabular}{@{}ll@{}}
-\toprule
-\textbf{Metric}            & \textbf{Description}                   \\ \midrule
-{Session Time}         & Overall session duration (minutes)              \\ 
-{Play Time}            & Session Time spent actively playing (minutes)    \\ 
-{Delta Session}        & Temporal distance  between sessions (minutes)   \\ 
-{Activity Index}       & Count of user initiated game-play-related actions. E.g.\\ 
-                       & `Talk to NPC' or `Acquire Upgrade' were considered valid\\ 
-                       & actions while `Click Menu' or `NPC Attacks You' were not.\\
-{Activity Diversity}   & Count of unique voluntarily initiated actions \\ 
-{Context}              & Name of the game taken into consideration \\ \bottomrule
-\end{tabular}
-}
-\end{table}
+\input{tables/chapter_3/features_target_description_32}
 
 \paragraph*{Data Preparation}We adopted specific data preparation procedures for each experiment. For the first analysis we collapsed the data over the temporal dimension retrieving mean and standard deviation of each considered features, to this concatenating a one-hot encoded transformation of the context metric. For the second and third experiments we kept the data in the original temporal form. In Experiment 3 only we treated the game context slightly differently, numerically encoding it and separating it from the other feature matrix. Since in Experiment 2 and 3 the length of the OP differed between users, we zero padded each sequence of considered sessions to the length of the longest sequence in the data-set. For each experiment we created a tuning and validation subsets (i.e. 20 and 80 \% of the original data-set) via stratified shuffle split \cite{scikit-learn}, employing the first for hyper-parameters searching and the second for model evaluation.
 
