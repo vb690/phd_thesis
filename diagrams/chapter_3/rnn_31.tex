@@ -104,5 +104,5 @@
 \end{adjustbox}
 \end{center}
 \caption{\textbf{Bifurcating Model (BM) Architecture.} The first section learns an embedding for each game context and fuses it, via concatenation, with the feature set. The embedding allows the model to learn a rich multi-dimensional representation of the game context projecting similar games into closer points in the latent space. The second section takes these fused representation over time and models them temporally using an LSTM. The LSTM is particularly suitable because it can handle time series of different lengths and explicitly model temporal dependencies. We thought to use this part of the model for extracting a high level representation of the player state which could be used for predicting measures of future disengagement and sustained engagement. Inspired by the results of \textit{Experiment 1}, this is achieved by 'branching' two shallow NNs tasked to perform churn probability and survival time estimation.}
-\label{fig: rnn}
+\label{fig: rnn_1}
 \end{figure}
