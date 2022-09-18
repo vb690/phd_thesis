@@ -1,5 +1,26 @@
+\section{Sigmoid function}
+Given a vector $x$ the sigmoid function $\sigma$ is defined as 
+\begin{gather}
+    \label{sigmoid}
+    \sigma(x) = \frac {1} {1 + \eta^{-x}}
+\end{gather}
+
+\section{Hyperbolic Function}
+Given a vector $x$ the hyperbolic function $\tanh$ is defined as 
+\begin{gather}
+    \label{tanh}
+    \tanh(x) = \frac {\eta^{2x} -1} {\eta^{2x} +1}
+\end{gather}
+
+\section{ReLU Operation}
+Given a vector $x$ the Rectified Linear Unit function $ReLu$ is defined as 
+\begin{gather}
+    \label{relu}
+    ReLU(x) = \max(0, x)
+\end{gather}
+
 \section{Fully Connected Operation}
-Given an input matrix $X$, an $N$ layers feedforward neural network can be defined as
+Given an input matrix $X$, the fully connected operation carried out by $N$ layers feedforward neural network can be defined as
 \begin{gather}
     \label{fnn_operation}
     h_1 = \phi(\theta_1^\top X + \beta_1)\\ \nonumber
@@ -7,18 +28,25 @@ Given an input matrix $X$, an $N$ layers feedforward neural network can be defin
     \dots\\ \nonumber
     h_N = \phi(\theta_N^\top h_{N-1}  + \beta_N) \nonumber
 \end{gather}
-with $\phi$ being a non-linear function, ${\theta_1, \dots, \theta_N}$ a set of learnable weights and ${\beta_1, \dots, \beta_N}$ a set of learnable biases.
+with $\phi$ being a non-linear function, $\{\theta_1, \dots, \theta_N\}$ a set of learnable weights matrices of shape $h_{n-1} \times h_{n}$  and $\{\beta_1, \dots, \beta_N\}$ a set of learnable biases of shape $h_n$.
 
 \section{Embedding Operation}
-Given an input set of numerical indices $X = {1, 2, \dots, N}$, their embedding is defined as 
+Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the embedding operation is defined as 
 \begin{equation}
     h = \phi(\theta_{X,*})
 \end{equation}
 with $\phi$ being a non-linear function and $\theta$ an $N \times z$ learnable weights matrix.
 
 \section{LSTM Cell Operation}
-Given an input series $X_{t_1:T}$
-\begin{equation}
-    h = \phi(\theta_{X,*})
-\end{equation}
+Given an input series $X_{t_1:T}$ an LSTM cell operation is defined as
+\begin{gather}
+    \label{lstm}
+    f_t = \sigma(\theta_{xf}^\top X_t + \theta_{hf}^\top h_{t-1} + \beta_f) \\ \nonumber
+    i_t = \sigma(\theta_{xi}^\top X_t + \theta_{hi}^\top h_{t-1} + \beta_i) \\ \nonumber
+    o_t = \tanh(\theta_{xo}^\top X_t + \theta_{ho}^\top h_{t-1} + \beta_o) \\ \nonumber
+    \widehat{c}_t = \sigma(\theta_{xc}^\top X_t + \theta_{hc}^\top h_{t-1} + \beta_c) \\ \nonumber
+    c_t = f_t \times c_{t-1} + i_t \times \widehat{c}_t \\ \nonumber
+    h_t = o_t \times \tanh(c_t) \\ \nonumber
+\end{gather}
+with $\sigma$  being the sigmoid function, $\tanh$ the hyperbolic function, $\theta_{xf}$, $\theta_{hf}$, $\theta_{xi}$, $\theta_{hi}$, $\theta_{xo}$, $\theta_{ho}$, $\theta_{xc}$, $\theta_{hc}$ a set of learnable weights matrices, $\beta_f$, $\beta_i$, $\beta_o$, $\beta_c$, a set of learnable biases, $c_t$ the value at time $t$ of the conveyor belt matrix and $h_t$ the value at time $t$ of the hidden state matrix.
 
