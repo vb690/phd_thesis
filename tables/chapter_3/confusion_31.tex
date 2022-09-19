@@ -1,0 +1,15 @@
+\begin{table}[h] \centering
+\caption{\textbf{Performance of the BM on churn task.} Here the diagonal shows the \% of correct predictions for each label across all games.}
+\label{confusionmatrix}
+\begin{tabular}{llcc}
+\toprule
+ & & \multicolumn{2}{c}{\textbf{Prediction}} \\ \cmidrule(lr){3-4}
+ & & \parbox[c]{1.5cm}{Churner} & \parbox[c]{1.5cm}{Non-Churner} \\ \midrule
+\multirow{2}{*}{\rotatebox{90}{\parbox[c]{1.5cm}{\textbf{Ground  Truth}}}} 
+&\multirow{2}{*}{Churner}  & \cellcolor{DarkOliveGreen3!69}   &  \cellcolor{DarkOliveGreen3!31}   \\ 
+&&\multirow{-2}{*}{\cellcolor{DarkOliveGreen3!69}0.69}& \multirow{-2}{*}{\cellcolor{DarkOliveGreen3!31}0.31}\\
+&\multirow{2}{*}{Non-Churner}  &  \cellcolor{DarkOliveGreen3!33}   &  \cellcolor{DarkOliveGreen3!66}   \\ 
+&  &  \multirow{-2}{*}{\cellcolor{DarkOliveGreen3!33} 0.33} & \multirow{-2}{*}{\cellcolor{DarkOliveGreen3!66} 0.66}\\
+\bottomrule
+\end{tabular}
+\end{table}

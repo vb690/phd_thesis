@@ -60,6 +60,18 @@ Given a vector of ground truth values $y \in \mathbb{Z}_2^N$ and predictions $\w
         \sum\limits_{i=1}^{N}  y_i \cdot log(\hat{y_i}) + (1-y_i) \cdot log(1 - \hat{y_i})
 \end{gather}
 
+\section{F1 Score Function}
+Given a vector of ground truth values $y \in \mathbb{R}^N_{[0, 1]}$ and predictions $\widehat{y} \in \mathbb{R}^N_{[0, 1]}$ the F1 score is defined as 
+\begin{gather}
+\label{F1}
+    \text{F1}=
+        2 \cdot 
+        \dfrac
+            {(precision \cdot recall)}
+            {(precision + recall)}
+\end{gather}
+with $precision =\frac {TP}{(TP + FP)}$ and $recall = \frac {TP}{(TP + FN)}$, where \textit{TP, FP, TN, FN} stand for True Positives, False Positives, True Negatives and False Negatives. 
+
 \section{Dropout Regularization Function}
 Given parameters $\theta$ the dropout regularization function is defined as 
 \begin{gather}
