@@ -32,7 +32,15 @@ Given parameters $\theta$ the ridge regularization function $l2$ is defined as
     \label{ridge}
     l2(\theta) = \lambda \sum_{n=1}^{N}\theta_n^2
 \end{gather}
-with $\lambda$ being a a constant controlling the ammount of regularization.
+with $\lambda$ being a a constant controlling the strength of regularization.
+
+\section{ElasticNet Regularization Function}
+Given parameters $\theta$ the ridge regularization function $ElasticNet$ is defined as 
+\begin{gather}
+    \label{enet}
+    ElasticNet(\theta) = \lambda (\frac{1 - \alpha}{2}l2(\theta) + \alpha l1(\theta))
+\end{gather}
+with $\lambda$ and $\alpha$ being constants controlling respectively the global strength of regularization and the contribution of the $l1$ and $l2$ terms to the total ammount of regularization.
 
 \section{Lasso Regularization Function}
 Given parameters $\theta$ the ridge regularization function $l1$ is defined as 
