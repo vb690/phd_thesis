@@ -2,14 +2,14 @@
 Given a vector $x$ the sigmoid function $\sigma$ is defined as 
 \begin{gather}
     \label{sigmoid}
-    \sigma(x) = \frac {1} {1 + \eta^{-x}}
+    \sigma(x) = \frac {1} {1 + e^{-x}}
 \end{gather}
 
 \section{Hyperbolic Function}
 Given a vector $x$ the hyperbolic function $\tanh$ is defined as 
 \begin{gather}
     \label{tanh}
-    \tanh(x) = \frac {\eta^{2x} -1} {\eta^{2x} +1}
+    \tanh(x) = \frac {e^{2x} -1} {e^{2x} +1}
 \end{gather}
 
 \section{ReLU Operation}
@@ -32,15 +32,16 @@ with $\phi$ being a non-linear function, $\{\theta_1, \dots, \theta_N\}$ a set o
 
 \section{Embedding Operation}
 Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the embedding operation is defined as 
-\begin{equation}
+\begin{gather}
+    \label{embedding_operation}
     h = \phi(\theta_{X,*})
-\end{equation}
+\end{gather}
 with $\phi$ being a non-linear function and $\theta$ an $N \times z$ learnable weights matrix.
 
 \section{LSTM Cell Operation}
 Given an input series $X_{t_1:T}$ an LSTM cell operation is defined as
 \begin{gather}
-    \label{lstm}
+    \label{lstm_operation}
     f_t = \sigma(\theta_{xf}^\top X_t + \theta_{hf}^\top h_{t-1} + \beta_f) \\ \nonumber
     i_t = \sigma(\theta_{xi}^\top X_t + \theta_{hi}^\top h_{t-1} + \beta_i) \\ \nonumber
     o_t = \tanh(\theta_{xo}^\top X_t + \theta_{ho}^\top h_{t-1} + \beta_o) \\ \nonumber
