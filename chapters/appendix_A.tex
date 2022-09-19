@@ -20,15 +20,16 @@ Given a vector $x$ the Rectified Linear Unit function $ReLu$ is defined as
 \end{gather}
 
 \section{Fully Connected Operation}
-Given an input matrix $X$, the fully connected operation carried out by $N$ layers feedforward neural network can be defined as
+Given an input matrix $X \in \mathbb{R}^{N \times h}$, the fully connected operation carried out by $L$ layers feedforward neural network can be defined as
 \begin{gather}
     \label{fnn_operation}
-    h_1 = \phi(\theta_1^\top X + \beta_1)\\ \nonumber
+    h_0 = X
+    h_1 = \phi(\theta_1^\top h_0 + \beta_1)\\ \nonumber
     h_2 = \phi(\theta_2^\top h_1  + \beta_2)\\ \nonumber
     \dots\\ \nonumber
-    h_N = \phi(\theta_N^\top h_{N-1}  + \beta_N) \nonumber
+    h_L = \phi(\theta_L^\top h_{L-1}  + \beta_L) \nonumber
 \end{gather}
-with $\phi$ being a non-linear function, $\{\theta_1, \dots, \theta_N\}$ a set of learnable weights matrices of shape $h_{n-1} \times h_{n}$  and $\{\beta_1, \dots, \beta_N\}$ a set of learnable biases of shape $h_n$.
+with $\phi$ being a non-linear function, $\{\theta_1, \dots, \theta_N\}$ a set of learnable weights matrices of shape $\theta_l \in \mathbb{R}^{h_{l-1} \times h_{l}}$ and $\{\beta_1, \dots, \beta_N\}$ a set of learnable biases vectors of shape $b_l \in \mathbb{R}^{h_l}$.
 
 \section{Embedding Operation}
 Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the embedding operation is defined as 
