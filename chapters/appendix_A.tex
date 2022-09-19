@@ -1,3 +1,10 @@
+\section{Identity function}
+Given a vector $x$ the identity function $id$ is defined as 
+\begin{gather}
+    \label{identity}
+    id(x) = x
+\end{gather}
+
 \section{Sigmoid function}
 Given a vector $x$ the sigmoid function $\sigma$ is defined as 
 \begin{gather}
@@ -12,12 +19,28 @@ Given a vector $x$ the hyperbolic function $\tanh$ is defined as
     \tanh(x) = \frac {e^{2x} -1} {e^{2x} +1}
 \end{gather}
 
-\section{ReLU Operation}
+\section{ReLU Function}
 Given a vector $x$ the Rectified Linear Unit function $ReLu$ is defined as 
 \begin{gather}
     \label{relu}
     ReLU(x) = \max(0, x)
 \end{gather}
+
+\section{Ridge Regularization Function}
+Given parameters $\theta$ the ridge regularization function $l2$ is defined as 
+\begin{gather}
+    \label{ridge}
+    l2(\theta) = \lambda \sum_{n=1}^{N}\theta_n^2
+\end{gather}
+with $\lambda$ being a a constant controlling the ammount of regularization.
+
+\section{Lasso Regularization Function}
+Given parameters $\theta$ the ridge regularization function $l1$ is defined as 
+\begin{gather}
+    \label{lasso}
+    l1(\theta) = \lambda \sum_{n=1}^{N}|\theta_n|
+\end{gather}
+with $\lambda$ being a a constant controlling the ammount of regularization.
 
 \section{Fully Connected Operation}
 Given an input matrix $X \in \mathbb{R}^{N \times h}$, the fully connected operation carried out by $L$ layers feedforward neural network can be defined as
@@ -37,10 +60,10 @@ Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the embedding 
     \label{embedding_operation}
     h = \phi(\theta_{X,*})
 \end{gather}
-with $\phi$ being a non-linear function and $\theta$ an $N \times z$ learnable weights matrix.
+with $\phi$ being a non-linear function and $\theta$ an $\mathbb{R}^{N \times z}$ learnable weights matrix.
 
 \section{LSTM Cell Operation}
-Given an input series $X_{t_1:T}$ an LSTM cell operation is defined as
+Given an input series $X_{t_1:T}$ an LSTM cell operation, applied recursively for each $t \in T$, is defined as
 \begin{gather}
     \label{lstm_operation}
     f_t = \sigma(\theta_{xf}^\top X_t + \theta_{hf}^\top h_{t-1} + \beta_f) \\ \nonumber
