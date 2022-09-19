@@ -26,6 +26,58 @@ Given a vector $x$ the Rectified Linear Unit function $ReLu$ is defined as
     ReLU(x) = \max(0, x)
 \end{gather}
 
+\section{Mean Squared Error Function}
+Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\widehat{y} \in \mathbb{R^N}$ the mean squared error (MSE) function is defined as 
+\begin{gather}
+\label{mse}
+    \text{MSE}=
+        \dfrac
+            {1}
+            {N}
+            \sum\limits_{i=1}^{N}  (y_i - \hat{y_i})^2
+\end{gather}
+
+\section{Symmetric Mean Absolute Percentage Error Function}
+Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\widehat{y} \in \mathbb{R^N}$ the symmetric mean absolute percentage error (SMAPE) function is defined as 
+\begin{equation}
+  \begin{gathered} 
+  \label{smape}
+     SMAPE(y, \widehat{y}) = 
+    \frac{1}{N} 
+    \sum_{i=1}^{N}
+    \frac{| y_{i} - \widehat{y}_{i} |} {|y_{i}| + |\widehat{y_{i}}|}  
+  \end{gathered}
+\end{equation}
+
+\section{Binary Cross-Entropy Function}
+Given a vector of ground truth values $y \in \mathbb{Z}_2^N$ and predictions $\widehat{y} \in \mathbb{R}^N_{[0, 1]}$ the Binary Cross-Entropy (BCE) function is defined as 
+\begin{gather}
+\label{bce}
+    \text{BCE}=
+        -\dfrac
+            {1}
+            {N}
+        \sum\limits_{i=1}^{N}  y_i \cdot log(\hat{y_i}) + (1-y_i) \cdot log(1 - \hat{y_i})
+\end{gather}
+
+\section{Dropout Regularization Function}
+Given parameters $\theta$ the dropout regularization function is defined as 
+\begin{gather}
+    \label{dropout}
+    dropout(\theta) = \prod^J _{i=1} \theta_i \times z_i \\ \nonumber
+    z_i \sim Bernoulli(p) \\ \nonumber
+\end{gather}
+with $p$ being the probability of a parameter being dropped. 
+
+\section{Batch Normalization Regularization Function}
+Given parameters $\theta$ the batch normalization regularization function is defined as 
+\begin{gather}
+    \label{batch_norm}
+    dropout(\theta) = \prod^J _{i=1} \theta_i \times z_i \\ \nonumber
+    z_i \sim Bernoulli(p) \\ \nonumber
+\end{gather}
+with $p$ being the probability of a parameter being dropped. 
+
 \section{Ridge Regularization Function}
 Given parameters $\theta$ the ridge regularization function $l2$ is defined as 
 \begin{gather}
@@ -37,7 +89,7 @@ with $\lambda$ being a a constant controlling the strength of regularization.
 \section{ElasticNet Regularization Function}
 Given parameters $\theta$ the ridge regularization function $ElasticNet$ is defined as 
 \begin{gather}
-    \label{enet}
+    \label{enet_reg}
     ElasticNet(\theta) = \lambda (\frac{1 - \alpha}{2}l2(\theta) + \alpha l1(\theta))
 \end{gather}
 with $\lambda$ and $\alpha$ being constants controlling respectively the global strength of regularization and the contribution of the $l1$ and $l2$ terms to the total ammount of regularization.
@@ -61,6 +113,17 @@ Given an input matrix $X \in \mathbb{R}^{N \times h}$, the fully connected opera
     h_L = \phi(\theta_L^\top h_{L-1}  + \beta_L) \nonumber
 \end{gather}
 with $\phi$ being a non-linear function, $\{\theta_1, \dots, \theta_N\}$ a set of learnable weights matrices of shape $\theta_l \in \mathbb{R}^{h_{l-1} \times h_{l}}$ and $\{\beta_1, \dots, \beta_N\}$ a set of learnable biases vectors of shape $b_l \in \mathbb{R}^{h_l}$.
+
+\section{One-Hot Encode Operation}
+Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the one-hot encode operation is defined as 
+\begin{gather}
+    \label{one_hot_encode_operation}
+    1_X(x_i) = 
+    \begin{cases}
+        1,& \text{if } x_i \in X \\
+        0,              & \text{otherwise}
+    \end{cases}
+\end{gather}
 
 \section{Embedding Operation}
 Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the embedding operation is defined as 
