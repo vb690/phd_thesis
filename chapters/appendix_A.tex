@@ -70,13 +70,12 @@ Given parameters $\theta$ the dropout regularization function is defined as
 with $p$ being the probability of a parameter being dropped. 
 
 \section{Batch Normalization Regularization Function}
-Given parameters $\theta$ the batch normalization regularization function is defined as 
+Given an embedding  $h \in \mathbb{R}^{N\times z}$ the batch normalization regularization function is defined as 
 \begin{gather}
     \label{batch_norm}
-    dropout(\theta) = \prod^J _{i=1} \theta_i \times z_i \\ \nonumber
-    z_i \sim Bernoulli(p) \\ \nonumber
+    BatchNorm(h) = \frac{h - \mu_b}{\sqrt{(\sigma_b)^2} + \epsilon}
 \end{gather}
-with $p$ being the probability of a parameter being dropped. 
+with $\mu_b$ and $\sigma_b$ being respectively the column-wise mean and standard deviation of the embedding $h$ and $\epsilon$ a small constant for avoiding division by zero.
 
 \section{Ridge Regularization Function}
 Given parameters $\theta$ the ridge regularization function $l2$ is defined as 
