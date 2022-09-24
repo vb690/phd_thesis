@@ -26,8 +26,8 @@ Given a vector $x$ the Rectified Linear Unit function $ReLu$ is defined as
     ReLU(x) = \max(0, x)
 \end{gather}
 
-\section{Mean Squared Error Function}
-Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\widehat{y} \in \mathbb{R^N}$ the mean squared error (MSE) function is defined as 
+\section{Mean Squared Error}
+Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\widehat{y} \in \mathbb{R^N}$ the mean squared error (MSE) is defined as 
 \begin{gather}
 \label{mse}
     \text{MSE}=
@@ -37,8 +37,8 @@ Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\wid
             \sum\limits_{i=1}^{N}  (y_i - \hat{y_i})^2
 \end{gather}
 
-\section{Symmetric Mean Absolute Percentage Error Function}
-Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\widehat{y} \in \mathbb{R^N}$ the symmetric mean absolute percentage error (SMAPE) function is defined as 
+\section{Symmetric Mean Absolute Percentage Error}
+Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\widehat{y} \in \mathbb{R^N}$ the symmetric mean absolute percentage error (SMAPE) is defined as 
 \begin{equation}
   \begin{gathered} 
   \label{smape}
@@ -49,8 +49,8 @@ Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\wid
   \end{gathered}
 \end{equation}
 
-\section{Binary Cross-Entropy Function}
-Given a vector of ground truth values $y \in \mathbb{Z}_2^N$ and predictions $\widehat{y} \in \mathbb{R}^N_{[0, 1]}$ the Binary Cross-Entropy (BCE) function is defined as 
+\section{Binary Cross-Entropy}
+Given a vector of ground truth values $y \in \mathbb{Z}_2^N$ and predictions $\widehat{y} \in \mathbb{R}^N_{[0, 1]}$ the Binary Cross-Entropy (BCE)  is defined as 
 \begin{gather}
 \label{bce}
     \text{BCE}=
@@ -60,7 +60,7 @@ Given a vector of ground truth values $y \in \mathbb{Z}_2^N$ and predictions $\w
         \sum\limits_{i=1}^{N}  y_i \cdot log(\hat{y_i}) + (1-y_i) \cdot log(1 - \hat{y_i})
 \end{gather}
 
-\section{F1 Score Function}
+\section{F1 Score}
 Given a vector of ground truth values $y \in \mathbb{R}^N_{[0, 1]}$ and predictions $\widehat{y} \in \mathbb{R}^N_{[0, 1]}$ the F1 score is defined as 
 \begin{gather}
 \label{F1}
@@ -72,8 +72,8 @@ Given a vector of ground truth values $y \in \mathbb{R}^N_{[0, 1]}$ and predicti
 \end{gather}
 with $precision =\frac {TP}{(TP + FP)}$ and $recall = \frac {TP}{(TP + FN)}$, where \textit{TP, FP, TN, FN} stand for True Positives, False Positives, True Negatives and False Negatives. 
 
-\section{Dropout Regularization Function}
-Given parameters $\theta$ the dropout regularization function is defined as 
+\section{Dropout Regularization}
+Given parameters $\theta$ the dropout regularization is defined as 
 \begin{gather}
     \label{dropout}
     dropout(\theta) = \prod^J _{i=1} \theta_i \times z_i \\ \nonumber
@@ -81,8 +81,8 @@ Given parameters $\theta$ the dropout regularization function is defined as
 \end{gather}
 with $p$ being the probability of a parameter being dropped. 
 
-\section{Batch Normalization Regularization Function}
-Given an embedding  $h \in \mathbb{R}^{N\times z}$ the batch normalization regularization function is defined as 
+\section{Batch Normalization Regularization}
+Given an embedding  $h \in \mathbb{R}^{N\times z}$ the batch normalization regularization is defined as 
 \begin{gather}
     \label{batch_norm}
     BatchNorm(h) = \frac{h - \mu_b}{\sqrt{(\sigma_b)^2} + \epsilon}
@@ -145,13 +145,13 @@ Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the embedding 
 with $\phi$ being a non-linear function and $\theta$ an $\mathbb{R}^{N \times z}$ learnable weights matrix.
 
 \section{LSTM Cell Operation}
-Given an input series $X_{t_1:T}$ an LSTM cell operation, applied recursively for each $t \in T$, is defined as
+Given an input set of multivariate time series $X_{t_1:T} \in \mathbb{R}^{N \times T \times B}$ with $N$ being the number of series, $T$ the length of the series and $B$ the dimensionality of the series. An LSTM cell operation, applied recursively along the temporal dimension for each $x_t \in X$, is defined as
 \begin{gather}
     \label{lstm_operation}
-    f_t = \sigma(\theta_{xf}^\top X_t + \theta_{hf}^\top h_{t-1} + \beta_f) \\ \nonumber
-    i_t = \sigma(\theta_{xi}^\top X_t + \theta_{hi}^\top h_{t-1} + \beta_i) \\ \nonumber
-    o_t = \tanh(\theta_{xo}^\top X_t + \theta_{ho}^\top h_{t-1} + \beta_o) \\ \nonumber
-    \widehat{c}_t = \sigma(\theta_{xc}^\top X_t + \theta_{hc}^\top h_{t-1} + \beta_c) \\ \nonumber
+    f_t = \sigma(\theta_{xf}^\top x_t + \theta_{hf}^\top h_{t-1} + \beta_f) \\ \nonumber
+    i_t = \sigma(\theta_{xi}^\top x_t + \theta_{hi}^\top h_{t-1} + \beta_i) \\ \nonumber
+    o_t = \tanh(\theta_{xo}^\top x_t + \theta_{ho}^\top h_{t-1} + \beta_o) \\ \nonumber
+    \widehat{c}_t = \sigma(\theta_{xc}^\top x_t + \theta_{hc}^\top h_{t-1} + \beta_c) \\ \nonumber
     c_t = f_t \times c_{t-1} + i_t \times \widehat{c}_t \\ \nonumber
     h_t = o_t \times \tanh(c_t) \\ \nonumber
 \end{gather}
