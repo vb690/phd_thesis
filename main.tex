@@ -21,6 +21,7 @@
 \usepackage{authblk}
 \usepackage[tracking=true]{microtype}
 \usepackage[toc,page]{appendix}
+\usepackage[font={small}]{caption}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -114,6 +115,9 @@ This work was supported by the EPSRC Centre for Doctoral Training in Intelligent
 \label{chapter_general_discussion}
 \input{chapters/general_discussion}
 
+\bibliographystyle{unsrt}
+\bibliography{bibliography}
+
 \appendix
 \chapter{Appendix A}
 \label{appendix_a}
@@ -122,9 +126,6 @@ This work was supported by the EPSRC Centre for Doctoral Training in Intelligent
 \chapter{Appendix B}
 \label{appendix_b}
 \input{chapters/appendix_B.tex}
-
-\bibliographystyle{unsrt}
-\bibliography{bibliography}
 
 \end{document}
 
