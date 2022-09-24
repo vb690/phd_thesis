@@ -42,7 +42,7 @@ Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\wid
 \begin{equation}
   \begin{gathered} 
   \label{smape}
-     SMAPE(y, \widehat{y}) = 
+     SMAPE(y, \widehat{y}) = 100 *
     \frac{1}{N} 
     \sum_{i=1}^{N}
     \frac{| y_{i} - \widehat{y}_{i} |} {|y_{i}| + |\widehat{y_{i}}|}  
