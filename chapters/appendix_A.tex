@@ -156,15 +156,24 @@ Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the embedding 
 with $\phi$ being a non-linear function and $\theta$ an $\mathbb{R}^{N \times z}$ learnable weights matrix.
 
 \section{LSTM Cell Operation}
-Given an input set of multivariate time series $X_{t_1:T} \in \mathbb{R}^{N \times T \times B}$ with $N$ being the number of series, $T$ the length of the series and $B$ the dimensionality of the series. An LSTM cell operation, applied recursively along the temporal dimension for each $x_t \in X$, is defined as
+Given an input set of multivariate time series $X_{t_1:T} \in \mathbb{R}^{N \times T \times B}$ with $N$ being the number of series, $T$ the length of the series and $B$ the dimensionality of the series. An LSTM cell operation, applied recursively along the temporal dimension for each $x_{*,t,*} \in X$, is defined as
 \begin{gather}
     \label{lstm_operation}
-    f_t = \sigma(\theta_{xf}^\top x_t + \theta_{hf}^\top h_{t-1} + \beta_f) \\ \nonumber
-    i_t = \sigma(\theta_{xi}^\top x_t + \theta_{hi}^\top h_{t-1} + \beta_i) \\ \nonumber
-    o_t = \tanh(\theta_{xo}^\top x_t + \theta_{ho}^\top h_{t-1} + \beta_o) \\ \nonumber
-    \widehat{c}_t = \sigma(\theta_{xc}^\top x_t + \theta_{hc}^\top h_{t-1} + \beta_c) \\ \nonumber
+    f_t = \sigma(\theta_{xf}^\top x_{*,t,*} + \theta_{hf}^\top h_{t-1} + \beta_f) \\ \nonumber
+    i_t = \sigma(\theta_{xi}^\top x_{*,t,*} + \theta_{hi}^\top h_{t-1} + \beta_i) \\ \nonumber
+    o_t = \tanh(\theta_{xo}^\top x_{*,t,*} + \theta_{ho}^\top h_{t-1} + \beta_o) \\ \nonumber
+    \widehat{c}_t = \sigma(\theta_{xc}^\top x_{*,t,*} + \theta_{hc}^\top h_{t-1} + \beta_c) \\ \nonumber
     c_t = f_t \times c_{t-1} + i_t \times \widehat{c}_t \\ \nonumber
     h_t = o_t \times \tanh(c_t) \\ \nonumber
 \end{gather}
 with $\sigma$  being the sigmoid function, $\tanh$ the hyperbolic function, $\theta_{xf}$, $\theta_{hf}$, $\theta_{xi}$, $\theta_{hi}$, $\theta_{xo}$, $\theta_{ho}$, $\theta_{xc}$, $\theta_{hc}$ a set of learnable weights matrices, $\beta_f$, $\beta_i$, $\beta_o$, $\beta_c$, a set of learnable biases, $c_t$ the value at time $t$ of the conveyor belt matrix and $h_t$ the value at time $t$ of the hidden state matrix.
+
+
+\section{Time Distributed Operation}
+Given an input tensor $X \in \mathbb{R}^{N \times T \times h}$, a function $f$ with parameters $\theta$ can be applied along the temporal dimension for each $x_{*,t,*} \in X$ as
+\begin{gather}
+    \label{time_distributed}
+    h_t = f(x_{*,t,*}; \theta)
+\end{gather}
+it has to be noted that this has the effect of sharing $\theta$ across all $t \in T$ but without temporal conditioning (e.g. like the LSTM operation presented in Appendix \ref{lstm_operation} does).
 
