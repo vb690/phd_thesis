@@ -1,4 +1,4 @@
-\chapter{Recurring Notation}
+\chapter{Common Notation}
 
 \section{Identity function}
 Given a vector $x$ the identity function $id$ is defined as 
@@ -75,13 +75,22 @@ Given a vector of ground truth values $y \in \mathbb{R}^N_{[0, 1]}$ and predicti
 with $precision =\frac {TP}{(TP + FP)}$ and $recall = \frac {TP}{(TP + FN)}$, where \textit{TP, FP, TN, FN} stand for True Positives, False Positives, True Negatives and False Negatives. 
 
 \section{Dropout Regularization}
-Given parameters $\theta$ the dropout regularization is defined as 
+Given parameters $\theta \in \mathbb{R}^z$ the dropout regularization is defined as 
 \begin{gather}
     \label{dropout}
-    dropout(\theta) = \prod^J _{i=1} \theta_i \times z_i \\ \nonumber
-    z_i \sim Bernoulli(p) \\ \nonumber
+    dropout(\theta) = \prod^z _{i=1} \theta_i \times d_i \\ \nonumber
+    d_i \sim Bernoulli(p) \\ \nonumber
 \end{gather}
 with $p$ being the probability of a parameter being dropped. 
+
+\section{One Dimensional Spatial Dropout Regularization}
+Given a sequence of parameters $\theta_{t_1:T} \in \mathbb{R}^{T \times z}$ the one dimensional spatial dropout regularization is defined as 
+\begin{gather}
+    \label{spatial_dropout}
+    dropout(\theta) = \prod^T _{t=1} \theta_{t:} \times d_t \\ \nonumber
+    d_t \sim Bernoulli(p) \\ \nonumber
+\end{gather}
+with $p$ being the probability of an entire step in the sequence of parameters being dropped. 
 
 \section{Batch Normalization Regularization}
 Given an embedding  $h \in \mathbb{R}^{N\times z}$ the batch normalization regularization is defined as 
