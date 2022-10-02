@@ -28,6 +28,30 @@ Given a vector $x$ the Rectified Linear Unit function $ReLu$ is defined as
     ReLU(x) = \max(0, x)
 \end{gather}
 
+\section{Leaky ReLU Function}
+Given a vector $x$ the Leaky Rectified Linear Unit function $ReLu$ is defined as 
+\begin{gather}
+    \label{selu}
+    LReLU(x) =  = 
+    \begin{cases}
+        x,& \text{if } x > 0 \\
+        \alpha x,              & \text{otherwise}
+    \end{cases}
+\end{gather}
+with $\alpha=0.3$ being a small constant controlling the slope coefficient for the negative part of the function.
+
+\section{ELU Function}
+Given a vector $x$ the Exponential Linear Unit function $ELu$ is defined as 
+\begin{gather}
+    \label{elu}
+    ELU(x) = 
+    \begin{cases}
+        x,& \text{if } x > 0 \\
+        \alpha (e^{x} -1),              & \text{otherwise}
+    \end{cases}
+\end{gather}
+with $\alpha=1$ being the scale for the negative part of the function.
+
 \section{Mean Squared Error}
 Given a vector of ground truth values $y \in \mathbb{R^N}$ and predictions $\widehat{y} \in \mathbb{R^N}$ the mean squared error (MSE) is defined as 
 \begin{gather}
