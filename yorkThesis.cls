@@ -49,15 +49,17 @@
 \pagenumbering{arabic}
  
 % Macros to define department, supervisor and submission date
-
 \def\dept#1{\gdef\@dept{#1}}
 \def\supervisor#1{\gdef\@supervisor{#1}}
 \def\submitdate#1{\gdef\@submitdate{#1}}
 
-  \def\@title{}
-  \def\@author{}
-  \def\@dept{}
-  \def\@supervisor{}
+  \def\@title{
+      {A Methodology for Approximating Motivation-Related Latent States in Large Scale Scenarios}\\
+      {\large And its Application to Engagement Prediction in a Videogames Setting}\\
+  }
+  \def\@author{Valerio Bonometti}
+  \def\@dept{Computer Science}
+  \def\@supervisor{Alex Wade, Anders Drachen}
   \def\@submitdate{\ifcase\the\month\or
     January\or February\or March\or April\or May\or June\or
     July\or August\or September\or October\or November\or December\fi
@@ -69,11 +71,11 @@
 	\thispagestyle{empty}%
 	\ \vspace{1in}%
 	\begin{center}
-		{\Huge\expandafter{\bf \@title}}
+		{\LARGE\expandafter{\bf \@title}}
 	\end{center}
         \vspace{0.75in}
 	\begin{center}
-		{\Huge\bf \@author} \\
+		{\LARGE\bf \@author} \\
         \vspace{1in}
         
         \begin{center}
@@ -165,15 +167,7 @@
   {\Huge {\bf Declaration}}
   \end{flushleft}
   \vspace{0.5in}
-  \noindent This thesis has not previously been accepted in substance
-  for any degree and is not being concurrently submitted in candidature
-  for any degree other than Doctor of Philosophy of the University of York.
-  This thesis is the result of my own investigations, except
-  where otherwise stated. Other sources are acknowledged by explicit references.
-
-  I hereby give consent for my thesis, if accepted, to be made
-  available for photocopying and for inter-library loan, and for the
-  title and summary to be made available to outside organisations.
+  \noindent I declare that this thesis has not previously been accepted in substance for any degree and is not being concurrently submitted in candidature for any degree other than Doctor of Philosophy of the University of York. This thesis is the result of my own investigations, except where otherwise stated. Other sources are acknowledged by explicit references. All sources are acknowledged as References. I hereby give consent for my thesis, if accepted, to be made available for photocopying and for inter-library loan, and for the title and summary to be made available to outside organisations. The work presented in this thesis is the result of a partnership between University of York and Square Enix Ltd. It was supported by the EPSRC Centre for Doctoral Training in Intelligent Games \& Games Intelligence (IGGI) through grant [EP/L015846/1]. All data employed in this work were obtained and processed in compliance with the European Union's General Data Protection Regulation \cite{EUdataregulations2018} and Square Enix Ltd. data protection policies. Chapter \ref{chapter_theory_modelling} is based on the work carried out in \cite{bonometti2020theory, bonometti2021approximating}. Chapter \ref{chapter_implementation_testing} is based on the work carried out in \cite{bonometti2019modelling, bonometti2020theory, bonometti2021approximating}. Chapter \ref{chapter_repr_anal} is based on the work carried out in \cite{bonometti2021approximating}.
   \vspace{0.5in}
 
   \begin{minipage}{5.0in}
