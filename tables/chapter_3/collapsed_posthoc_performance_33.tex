@@ -6,8 +6,12 @@
 \hline
 \textbf{Contrast}           & \textbf{$\beta_1$ - $\beta_2$} & \textbf{Z} & \textbf{p} & \textbf{95\% C.I.} \\ \hline
 \multicolumn{5}{c}{\textbf{Collapsed Targets (Sum)}}                                                 \\ \hline
-\textbf{Lag 1 - Median} & 2.528                & 20.210     & \textless .01   & 2.283 - 2.773      \\
-\textbf{Median - ENet}          & 3.292                 & 26.322     & \textless .01   & 3.048 - 3.538        \\
-\textbf{ENet - MLP}          & 2.778                 & 22.211     & \textless .01   & 2.533 - 3.024        \\ \hline
+\textbf{MLP - RNN env} & .859                & 17.793     & \textless .01   & .765 - .954      \\
+\textbf{MLP - RNN env even}          & 1.690                 & 34.993     & \textless .01   & 1.596 - 1.785        \\
+\textbf{MLP - RNN even}          & 1.303                 & 26.983     & \textless .01   & 1.209 - 1.398        \\ 
+\textbf{RNN env - RNN env even}          & .830                 & 17.200     & \textless .01   & .736 - .925        \\
+\textbf{RNN env - RNN even}          & .443                 & 9.190     & \textless .01   & .349 - .539        \\
+\textbf{RNN env even - RNN even}          & -.386                 & -8.010     & \textless .01   & -.482 - -.292        \\
+\hline
 \end{tabular}
 \end{table}
