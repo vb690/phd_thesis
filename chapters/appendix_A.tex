@@ -124,7 +124,7 @@ Given an embedding  $h \in \mathbb{R}^{N\times z}$ the batch normalization regul
 \end{gather}
 with $\mu_b$ and $\sigma_b$ being respectively the column-wise mean and standard deviation of the embedding $h$ and $\epsilon$ a small constant for avoiding division by zero.
 
-\section{Ridge Regularization Function}
+\section{Ridge Regularization}
 Given parameters $\theta$ the ridge regularization function $l2$ is defined as 
 \begin{gather}
     \label{ridge}
@@ -132,7 +132,7 @@ Given parameters $\theta$ the ridge regularization function $l2$ is defined as
 \end{gather}
 with $\lambda$ being a a constant controlling the strength of regularization.
 
-\section{ElasticNet Regularization Function}
+\section{ElasticNet Regularization}
 Given parameters $\theta$ the ridge regularization function $ElasticNet$ is defined as 
 \begin{gather}
     \label{enet_reg}
@@ -140,7 +140,7 @@ Given parameters $\theta$ the ridge regularization function $ElasticNet$ is defi
 \end{gather}
 with $\lambda$ and $\alpha$ being constants controlling respectively the global strength of regularization and the contribution of the $l1$ and $l2$ terms to the total ammount of regularization.
 
-\section{Lasso Regularization Function}
+\section{Lasso Regularization}
 Given parameters $\theta$ the ridge regularization function $l1$ is defined as 
 \begin{gather}
     \label{lasso}

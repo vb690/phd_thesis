@@ -15,11 +15,124 @@ In order to assess in a more robust and reliable way the results of our models c
     \mu_j \sim Normal(\mu=1, \sigma=1) \\ \nonumber
     \sigma_j \sim HalfCauchy(\beta=1) \\ \nonumber
 \end{gather}
-with $B \in \mathbb{R}^{T \times dof}$ being a cubic B-spline matrix with $dof=6$ as provided by the python library Patsy \cite{patsy}. In this case $j$ indicates the $j^{\text{th}}$ game context, $i$ the $i^{\text{th}}$ model and $t$ the $t^{\text{th}}$ element in the considered sequence of SMAPE values. The $StudentT$ likelyhood allowed for an estimation of $\mu$ robust to outliers. The values for the the $Gamma$ distribution parameters were chosen according to a sensible default as mentioned in \cite{vehtarinu}. The choice of priors for $\alpha_{i}$ were made so to have a small regularizing effect: the priors assume each model to have an impact on the base SMAPE of $\sim \pm 2\% $ but with the expectancy of having no effect. The same model was fit on each of the 5 targets separately using mean field approximation \cite{kucukelbir2017automatic}. The model was implementing using the python library PyMC3 \cite{salvatier2016probabilistic}. As mean field approximation doesn't allow conventional convergence checks for Bayesian model fitting, we relied exclusively on visual inspection of the trace plot and marginal probability distributions. Comparison between different models was carried out by inspecting the marginal distribution of differences in the $\mu$ parameter, highlighting a region of practical significance (ROPE) equals to $\{-0.1, 0.1\}$. This means that we deemed worth of attention only differences in $\mu$ greater than $0.1\%$ SMAPE.
+with $B \in \mathbb{R}^{T \times dof}$ being a cubic B-spline matrix with $dof=6$ as provided by the python library Patsy \cite{patsy}. In this case $j$ indicates the $j^{\text{th}}$ game context, $i$ the $i^{\text{th}}$ model and $t$ the $t^{\text{th}}$ element in the considered sequence of SMAPE values. The $StudentT$ likelyhood allowed for an estimation of $\mu$ robust to outliers. The values for the the $Gamma$ distribution parameters were chosen according to a sensible default as mentioned in \cite{vehtarinu}. The choice of priors for $\alpha_{i}$ were made so to have a small regularizing effect: the priors assume each model to have an impact on the base SMAPE of $\sim \pm 2\% $ but with the expectancy of having no effect. The same model was fit on each of the 5 targets separately using mean field approximation \cite{kucukelbir2017automatic}. The model was implementing using the python library PyMC3 \cite{salvatier2016probabilistic}. As mean field approximation doesn't allow conventional convergence checks for Bayesian model fitting, we relied exclusively on visual inspection of the marginal probability distributions. Comparison between different models was carried out by inspecting the marginal distribution of differences in the $\mu$ parameter, highlighting a region of practical significance (ROPE) equals to $\{-0.1, 0.1\}$. This means that we deemed worth of attention only differences in $\mu$ greater than $0.1\%$ SMAPE.
 
-\subsection{Dynamic Prediction of Future Behavioural Intensity}
+\section{Dynamic Prediction of Future Behavioural Intensity}
 \label{dynamic_prediction_ancillary_perf}
 
-\subsection{Dynamic Prediction of Future Behavioural Intensity with Environmental and Game Covariates}
+\subsection{Future Absence}
+\label{future_act_bayes_2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{images/appendix_C/Future Absence_marginals_2.png}
+\caption[\textbf{Future absence marginal distributions}]{Marginal distributions for the parameters $\nu$, $\sigma$ estimated by the model fitted for the Future Absence target.}
+\label{marginals_abs_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{images/appendix_C/Future Absence_models_2.png}
+\caption[\textbf{Future absence model fixed effect}]{Forest plot of the marginal distributions for the parameter $\alpha$ (i.e. model slope) estimated by the model fitted for the Future Absence target.}
+\label{model_abs_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/appendix_C/Future Absence_interc_2.png}
+\caption[\textbf{Future absence time-varying random intercept}]{Time varying random intercept estimated by the model fitted for the Future Absence target.}
+\label{interc_abs_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/appendix_C/Future_Absence_comp_2.png}
+\caption[\textbf{Future absence pairwise comparisons of model fixed effect}]{Pairwise comparisons of the parameter $\alpha$ (i.e. model slope) estimated by the model fitted for the Future Absence target.}
+\label{comp_abs_2}
+\end{figure}
+
+\subsection{Future Active Time}
+\label{future_abs_bayes_2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{images/appendix_C/Future Active Time_marginals_2.png}
+\caption[\textbf{Future active time marginal distributions}]{Marginal distributions for the parameters $\nu$, $\sigma$ estimated by the model fitted for the Future Active Time target.}
+\label{marginals_act_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{images/appendix_C/Future Active Time_models_2.png}
+\caption[\textbf{Future active time model fixed effect}]{Forest plot of the marginal distributions for the parameter $\alpha$ (i.e. model slope) estimated by the model fitted for the Future Active Time target.}
+\label{model_act_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/appendix_C/Future Active Time_interc_2.png}
+\caption[\textbf{Future active time time-varying random intercept}]{Time varying random intercept estimated by the model fitted for the Future Active Time target.}
+\label{interc_act_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/appendix_C/Future_Active_Time_comp_2.png}
+\caption[\textbf{Future active time pairwise comparisons of model fixed effect}]{Pairwise comparisons of the parameter $\alpha$ (i.e. model slope) estimated by the model fitted for the Future Active Time target.}
+\label{comp_act_2}
+\end{figure}
+
+\subsection{Future Session Time}
+\label{future_sess_bayes_2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{images/appendix_C/Future Session Time_marginals_2.png}
+\caption[\textbf{Future session time marginal distributions}]{Marginal distributions for the parameters $\nu$, $\sigma$ estimated by the model fitted for the Future Session Time target.}
+\label{marginals_sess_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{images/appendix_C/Future Session Time_models_2.png}
+\caption[\textbf{Future session time model fixed effect}]{Forest plot of the marginal distributions for the parameter $\alpha$ (i.e. model slope) estimated by the model fitted for the Future Session Time target.}
+\label{model_ses_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/appendix_C/Future Session Time_interc_2.png}
+\caption[\textbf{Future session time time-varying random intercept}]{Time varying random intercept estimated by the model fitted for the Future Session Time target.}
+\label{interc_ses_2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/appendix_C/Future_Session_Time_comp_2.png}
+\caption[\textbf{Future session time pairwise comparisons of model fixed effect}]{Pairwise comparisons of the parameter $\alpha$ (i.e. model slope) estimated by the model fitted for the Future Session Time target.}
+\label{comp_ses_2}
+\end{figure}
+
+\subsection{Future Session Activity}
+\label{future_acti_bayes_2}
+
+\subsection{Future N° Sessions}
+\label{future_abs_bayes_2}
+
+\section{Dynamic Prediction of Future Behavioural Intensity with Environmental and Game Covariates}
 \label{dynamic_env_even_prediction_ancillary_perf}
 
+\subsection{Future Absence}
+\label{future_abs_bayes_2}
+
+\subsection{Future Active Time}
+\label{future_abs_bayes_2}
+
+\subsection{Future Session Time}
+\label{future_abs_bayes_2}
+
+\subsection{Future Session Activity}
+\label{future_abs_bayes_2}
+
+\subsection{Future N° Sessions}
+\label{future_abs_bayes_2}
