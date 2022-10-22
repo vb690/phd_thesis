@@ -55,7 +55,7 @@
 
   \def\@title{
       {A Methodology for Approximating Motivation-Related Latent States in Large Scale Scenarios}\\
-      {\large And its Application to Engagement Prediction in a Videogames Setting}\\
+      {\large And its Application to Engagement Prediction in a Video Game Setting}\\
   }
   \def\@author{Valerio Bonometti}
   \def\@dept{Computer Science}
