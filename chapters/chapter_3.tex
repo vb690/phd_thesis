@@ -277,13 +277,13 @@ In the third and last iteration of the model building process the focus was most
     \item The impact of the environmental conditions in which each interaction occurred. This information doesn't directly influence the amount of attributed incentive salience but help accounting for discrepancies in the observed behavioural manifestations. For example, an individual might ascribe high saliency to a specific object but show reduced goal directed behaviour due to impediments in the surrounding environment. In our setting these were represented by a series of indicators (e.g. hour of day, day of the week ) specifying the environmental conditions in which a playing session was observed.
     \item The impact of the, potentially rewarding, characteristics of the object. This factor is directly involved in determining the level of attributed saliency as it informs about which aspects of the game are likely to produce rewarding experiences. In our setting these were represented by metrics describing the amount and type of game events triggered by an individual during a playing session. It is important to note that given the nature of video games (i.e. secondary rewarding objects) the impact of these characteristics could vary from individual to individual and from interaction to interaction. In this view they are better understood in conjunction with the behavioural intensity of the game session in which they occur. For example, if an individual produces a prolonged playing session characterized by a high number of exploration events, it is likely that in this instance these specific characteristics contributed to the rewarding experience provided by the game.
 \end{enumerate}
-By adopting a similar approach to Neural GAMs \cite{agarwal2021neural} each component was estimated independently and subsequently combined in a single, more informative, representation. This was done with the intention to achieve a higher level of predictive accuracy while maintaining control on the mechanics generating the latent representation (more details will be provided in section \ref{model_design_3}. We want to stress how in this context we considered the ability to account for temporal dynamics as a factor of pivotal importance. We needed to provide our modelling approach with the ability to track potential changes in the attribution of saliency to different game characteristics. In order to investigate the contribution of the included covariates in improving the overall predictive accuracy we proceeded at validating the following hypotheses 
+By adopting a similar approach to Neural GAMs \cite{agarwal2021neural} each component was estimated independently and subsequently combined in a single, more informative, representation. This was done with the aim to achieve a higher level of predictive accuracy while maintaining control on the mechanics generating the latent representation (more details will be provided in section \ref{model_design_3}. In order to investigate the contribution of the included covariates in improving the overall predictive accuracy we proceeded at validating the following hypotheses:
 \begin{enumerate}
-    \item Including information about environmental context in which an interaction occurred can have a positive impact on the predictive accuracy of the model.
-    \item Including information about the ammount and type of game events occurring during an interaction can have a greater impact on the predictive accuracy of the model than when considering environmental factors alone. 
-    \item Considering the joint contribution of environmental factors and game characteristics can have a greater impact on the predictive accuracy of the model than when considering the two factors alone.  
+    \item Including information about the environmental context in which an interaction occurred can have a positive impact on the predictive accuracy of the model.
+    \item Including information about the ammount and type of game events occurring during an interaction can increase predictive accuracy more than when considering environmental factors alone. 
+    \item Considering the joint contribution of environmental factors and game characteristics can have a greater impact on predictive accuracy than when considering the two factors alone.  
 \end{enumerate}
-
+We want to stress how in this context we considered the ability to account for temporal dynamics as a factor of pivotal importance. The model had now to track changes not just in the behavioural intensity of the observed interactions, but also in the surrounding environment and in the preference for different game characteristics. For this reason we also tried to replicate some of the findings observed in the previous stages of the model building process by evaluating the following additional hypotheses
 \begin{enumerate}
     \item Including sequential dynamics in the modelling approach can have a positive effect on the predictive performance.
     \item It is possible to have a single model jointly multiple first-order metrics of behavioural intensity without any substantial loss in accuracy
@@ -292,14 +292,48 @@ By adopting a similar approach to Neural GAMs \cite{agarwal2021neural} each comp
 
 \subsection{Model Design}
 \label{model_design_3}
-\lorem
+The final iteration of our ANN architecture was an extension of the previous RNN model and aimed to jointly predict the same set of 5 behavioural metrics. This new architecture followed the same principles of Neural GAMs (as outlined in section \ref{modelling_env_and_game_elements}) and tried to estimate the latent state used for predicting future behaviour by decomposing it in 3 functional components. The architecture is illustrated in Figure \ref{fig: rnn_3}
 \input{diagrams/chapter_3/rnn_33}
+The model receives the same behavioural inputs of the architecture described in section \ref{model_design_2} along with two new types of inputs. A set of 5 univariate time series of shape $Env \in \mathbb{N}^{N \times 1 \times 1}$ is used for introducing information about the environment in which an interaction occurred (a full description of the metrics employed is provided in table \ref{metricsdescription_env_3}).  
+
+It has to be noted that all the series containing information about the environment and the game events contained metrics that were numerically encoded (e.g. $Monday \mapsto 1$, $Tuesday \mapsto 2$, $Shooting \mapsto 1$ etc.), this because they relied on the same embedding operation used for representing the game context.
+
+with the major difference that no padding was required. Indeed we decided to exploit the ability of RNN to flexibly fit variable-length time series and opted for a data generator approach \footnote{See \cite{chollet2015keras,tensorflow2015-whitepaper} for implementation details.}, feeding data to the models in random batches with constant length within a batch. The type of operations performed by the architecture were identical to those presented in section \ref{model_design_1} although with 2 major differences. First, the RNN component of the architecture was now of type many-to-many therefore producing an $H \in \mathbb{R}^{N \times T \times h}$ tensor constituting the sequence of hidden states produced by the LSTM operation after observing each element of the input time series\cite{bengio2017deep}. Second, the final step of the architecture now exploits the temporal nature of the latent representation generated by the RNN for predicting not just a single value but a sequence of values, namely the lead-1 version of the input time series. This was again achieved by means of multi-task learning with five ANNs with fully connected operations. In order to apply the fully connected operations to a sequence of latent states we distributed their computations across time \footnote{See \cite{chollet2015keras} for implementation details} (see Appendix \ref{time_distributed}) so that each ANN could produce a tensor of shape $\hat{y} \in \mathbb{R}^{N \times T \times 1}$. We want to highlight that the model now fully reflect the formulation presented in section \ref{td_to_supervised}, indeed if again we look at the representations generated by the LSTM in terms of target expectation
+\begin{gather}
+\label{rnn_1_exp}
+   h_t = f^1(O, B_{t}, h_{t-1}; \theta^1)  \\ \nonumber
+   \mathbb{E}[B_{t+1}] = f^2(h_t; \theta^2) \\ \nonumber    
+\end{gather}
+we can can see how at each point in time the generated representation $h_t$ is mostly indicative of the behavioural intensity a time $t+1$ but it also needs to retain some predictive power for all the subsequent time steps. The model used a combination of $ReLU$, $ELU$ and $LReLU$ (see Appendix \ref{elu} and \ref{lelu}) as activations functions for the hidden units (more details on their selection are specified in \ref{tuning_comparison_2} whereas the link function used for generating the prediction was always the $identity$ function. As a regularization strategy we decided to drop the use of batch normalization, as it proved challenging to adopt with a multivariate time-series target, and introduces a variant of dropout (i.e. One Dimensional Spatial Dropout see Appendix \ref{spatial_dropout}) more suitable for time series data and applied it after each layer in the architecture.
+
+\paragraph{Competing Models}
+\label{competing_models_2}
+As in the previous stage of the model building process a series of competing models were implemented for testing our hypotheses. First, we decided to improve our baseline by establishing two reasonable single-parameter models. The first is a Lag 1 model producing predictions according to the following rule:
+\begin{equation}
+   \begin{gathered}  
+     B_{t+1} = B_{t}
+     \label{lag_1}
+  \end{gathered}
+\end{equation}
+here $t$ represent a single game session in a sequence of $T$ observed interactions while $B$ are the same behavioural metrics the RNN model recives as input (they are thoroughly described in section \ref{data_2}). The second is a Median model computing the expectation of each of the 5 targets according to the formula:
+\begin{equation}
+  \begin{gathered}  
+    \overline{B_{t+1}} = \frac
+      {\sum_{i=1}^{t+1} wB_{i}}
+      {\sum_{i=1}^{t+1} w }\\
+    B_{t+1} = median(\overline{B_{t+1}}) 
+    \label{median}
+  \end{gathered}
+\end{equation}
+here $\overline{B_{t+1}}$ is an exponentially weighted average of all the $B_t$ up to $t+1$ observed when fitting the model. This is computed separately for every individual in the dataset and the median value of each of the 5 targets is used a a constant prediction. These apparently naive models provide a surprisingly robust prediction baseline for time series that are not white noise \cite{hyndman2018forecasting} other than having a nice interpretation in terms of behavioural momentum \cite{nevin2000behavioral}: in conditions of high experienced reward the behaviour of an individual tends to be consistent over time (i.e. resistant to change). Similarly to the model used in the assessment of the BM architecture, a multi-task linear model with Elastic-Net regularization (ENet) \cite{zou2005regularization} was used to evaluate the performance of simple additive models. While for testing the effect of non linearity, a multi-task Multilayer Perceptron (MLP) was employed. Both model used an embedding operation for encoding information from the game context but the ENet model had the number of hidden units fixed to 1 an relied on an $identity$ activation function. This was done for avoiding to introduce non-linearity in the ENet model. Figure \ref{fig: mlp_2} show the architecture used for both the ENet and MLP models. We can see that differently from the models used in section \ref{model_architecture_1} the only difference with RNN architecture lies in the use of time distributed fully connected operations instead of those provided by the LSTM. 
 \input{diagrams/chapter_3/mlp_33}
 
 \subsection{Data}
 \label{data_3}
 \input{tables/chapter_3/descriptive_statistics_33}
-\input{tables/chapter_3/features_target_description_33}
+\input{tables/chapter_3/features_target_description_beh_33}
+\input{tables/chapter_3/features_description_env_33}
+\input{tables/chapter_3/features_description_even_33}
 \lorem
 
 \subsection{Model Tuning and Comparison}
