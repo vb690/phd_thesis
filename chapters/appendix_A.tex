@@ -201,3 +201,18 @@ Given an input tensor $X \in \mathbb{R}^{N \times T \times h}$, a function $f$ w
 \end{gather}
 it has to be noted that this has the effect of sharing $\theta$ across all $t \in T$ but without temporal conditioning (e.g. like the LSTM operation presented in Appendix \ref{lstm_operation} does).
 
+\section{One Dimensional Convolution Operation}
+Given an input set of multivariate time series $X_{t_1:T} \in \mathbb{R}^{N \times T \times B}$ with $N$ being the number of series, $T$ the length of the series and $B$ the dimensionality of the series. A One Dimensional Convolution operation, applied recursively along the temporal dimension for each $x_{*,t,*} \in X$, is defined as
+\begin{gather}
+    \label{1d_conv}
+    h_t = \phi(\theta_{K}^\top x_{*,t : t+k,*})
+\end{gather}
+with $\phi$ being a non-linear function and $K$ a $K \in \mathbb{R}^{k \times z}$ learnable weights matrix.
+
+\section{One Dimensional Global Average Pooling Operation}
+Given an input set of multivariate time series $X_{t_1:T} \in \mathbb{R}^{N \times T \times B}$ with $N$ being the number of series, $T$ the length of the series and $B$ the dimensionality of the series. A Global Average Pooling Operation, is defined as
+\begin{gather}
+    \label{1d_pool}
+    h_t = \dfrac{1}{T} \sum_{t=1}^{t}X_{*,t,*}
+\end{gather}
+
