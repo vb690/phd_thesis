@@ -366,11 +366,11 @@ and game contexts. From the two figures we can also observe a number of interest
 \caption[\textbf{Model comparison without collapsing}]{Overall, the joint contribution of game events and environmental covariates appear to have a positive effect of performance in most of the target-game context combinations and temporal horizons. Each column represents the perfromance of the considered models on a specific target while each row reports the perfromance on a specific game context. Solid lines indicate the expected \% error over time for a specific combination of target and model. Dashed areas indicate the standard error of the mean.}
 \label{model_comp_non_coll_33} 
 \end{figure}
-\lorem
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=.5\columnwidth]{images/chapter_3/performance_collapsed_33.png}
-\caption[\textbf{Aggregated comparison of model performance}]{ Overall, our approach (RNN) outperforms all the competing approaches. Box-plots show the 10-fold cross-validation performance expressed as the total percentage of error (i.e. SMAPE) of each model over the five targets.}
+\caption[\textbf{Aggregated comparison of model performance}]{ Overall, the joint contribution of game events and environmental covariates appear to have a positive effect on perfromance. Box-plots show the 8-fold cross-validation performance expressed as the total percentage of error (i.e. SMAPE) of each model over the five targets.}
 \label{model_comp_coll_33} 
 \end{figure}
 When inspecting the perfromance of the various architectures at the target level, we noticed a more heterogeneous perfromance landscape. From table \ref{exploded_lmm_33} we can see that despite the inclusion of environmental and game events covariate improved the perfromance of the RNN architecture for most targets, there were some noticeable exceptions. For the target Future Active Time there seemed to be no beneficial effect associated to the inclusion of the two covariates, this was likely due to perfromance heterogeneity between game contexts (see Figure \ref{model_comp_non_coll_33}). Consistently with previous findings, the MLP architecture appeared to under perform the simple RNN for all the considered targets.   
