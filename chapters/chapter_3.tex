@@ -337,7 +337,7 @@ where $x$ is the input vector to be scaled, while the categorical inputs (i.e. g
 
 \subsection{Model Tuning and Comparison}
 \label{tuning_comparison_3}
-\lorem
+Model tuning and comparison followed almost the exact same strategy employed for validating the RNN architecture with only few minor differences. Due to time constrains and hardware limitations we reduced the budget assigned to Hyperband from 40 to 20 epochs and limited the number of cross-validation folds to 8. The cross validation results, with collapsed and non-collapsed targets, were again analysed using a Linear Mixed-effects Model (LMM) with game object and time as random effects and model type as fixed effect (treatment coded with the RNN architecture as reference). In order to investigate the hypotheses outlined in \ref{model_architecture_3} we carried out post-hoc comparisons (i.e. t-tests with Bonferroni correction) on the coefficient estimated by the LMM model expecting the following inequalities: RNN Env $<$ RNN Even $<$ MLP $<$ RNN Env Even. Also in this case the ancillary analyses conducted within a Bayesian framework did not diverge substantially from the frequentist analyses, details and additional results are provided in Appendix \ref{dynamic_prediction_ancillary_perf}. All statistical analyses were conducted using the python library statsmodels \cite{seabold2010statsmodels}.  All the models were implemented using Tensorflow's high level API "Keras" \cite{tensorflow2015-whitepaper,chollet2015keras}. 
 
 \subsection{Results}
 \label{results_3}
