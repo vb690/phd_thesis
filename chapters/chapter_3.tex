@@ -341,31 +341,7 @@ Model tuning and comparison followed almost the exact same strategy employed for
 
 \subsection{Results}
 \label{results_3}
-Inspecting the results of the regression analysis on the collapsed targets (see Table \ref{model_comp_coll_game_33}) we can see how introducing environmental and game events covariates led to a modest but robust improvement in performance when compared with the RNN architecture. An interesting although surprising result was that the MLP architecture performed worse than the simple RNN architecture, despite having access to substantially more information (see Figure \ref{model_comp_expl_33}). Since this result was not expected a-priori and the estimated effect size is relatively modest, we invite to interpret it with caution.
-\input{tables/chapter_3/collapsed_lmm_performance_33}
-Inspecting the results of the post-hoc analysis \ref{collapsed_post_hoc_33}, we can see how the hypotheses presented in section \ref{tuning_comparison_3} were confirmed for all architectures except for MLP, which resulted to be the worst performing one (in some cases even by a substantial margin).
-\input{tables/chapter_3/collapsed_posthoc_performance_33}
-Inspecting Figures \ref{model_comp_coll_game_33} and \ref{model_comp_coll_time_33} we can see how including environmental and game events covariates seem to improve model perfromance in an additive fashion, with results that are consistent across horizons
-\begin{figure}[h]
-\centering
-\includegraphics[width=\textwidth]{images/chapter_3/models_comparison_collapsed_game_33.png}
-\caption[\textbf{Model comparison collapsing over game context}]{ Overall, including environmental and game events covariates appear to improve model perfromance in an additive fashion at every time horizon. The size of the improvement however seems to be heterogeneous across targets. Each column represent the perfromance of the considered models on a specific target. Solid lines indicate the expected \% error over time for a specific combination of target and model. Dashed areas indicate the standard error of the mean.}
-\label{model_comp_coll_game_33}
-\end{figure}
-and game contexts. From the two figures we can also observe a number of interesting phenomena. First, the largest perfromance improvement was observed for the metric Future Absence. Second, the contribution of the environmental covariates on perfromance appeared to be rather erratic (occasionally even hurting perfromance) but always led to a consistent positive impact when coupled with game events information. Finally, despite the proposed modification to the RNN architecture had a consistent positive impact across the board, we can see from Figure \ref{model_comp_non_coll_33} that the effect of environmental and game events covariates alone appeared to be vary across game contexts and targets. 
-\begin{figure}[h]
-\centering
-\includegraphics[width=\textwidth]{images/chapter_3/models_comparison_collapsed_time_33.png}
-\caption[\textbf{Model comparison collapsing over time}]{Overall, including environmental and game events covariates appear to improve model perfromance in an additive fashion at every time horizon. The size of the improvement however seems to be heterogeneous across targets. Each column represent the perfromance of the considered models on a specific target. Bars indicate the expected \% error for a specific combination of game context, target and model. Black vertical lines indicate the standard error of the mean.}
-\label{model_comp_coll_time_33} 
-\end{figure}
-\lorem
-\begin{figure}[h]
-\centering
-\includegraphics[height=0.5\textheight,keepaspectratio]{images/chapter_3/models_comparison_non_collapsed_33.png}
-\caption[\textbf{Model comparison without collapsing}]{Overall, the joint contribution of game events and environmental covariates appear to have a positive effect of performance in most of the target-game context combinations and temporal horizons. Each column represents the perfromance of the considered models on a specific target while each row reports the perfromance on a specific game context. Solid lines indicate the expected \% error over time for a specific combination of target and model. Dashed areas indicate the standard error of the mean.}
-\label{model_comp_non_coll_33} 
-\end{figure}
+Inspecting the results of the regression analysis on the collapsed targets (see Table \ref{model_comp_coll_game_33} and Figure \ref{model_comp_coll_33}) we can see how introducing environmental and game events covariates led to a modest but robust improvement in performance when compared with the RNN architecture. 
 
 \begin{figure}[h]
 \centering
@@ -373,7 +349,39 @@ and game contexts. From the two figures we can also observe a number of interest
 \caption[\textbf{Aggregated comparison of model performance}]{ Overall, the joint contribution of game events and environmental covariates appear to have a positive effect on perfromance. Box-plots show the 8-fold cross-validation performance expressed as the total percentage of error (i.e. SMAPE) of each model over the five targets.}
 \label{model_comp_coll_33} 
 \end{figure}
-When inspecting the perfromance of the various architectures at the target level, we noticed a more heterogeneous perfromance landscape. From table \ref{exploded_lmm_33} we can see that despite the inclusion of environmental and game events covariate improved the perfromance of the RNN architecture for most targets, there were some noticeable exceptions. For the target Future Active Time there seemed to be no beneficial effect associated to the inclusion of the two covariates, this was likely due to perfromance heterogeneity between game contexts (see Figure \ref{model_comp_non_coll_33}). Consistently with previous findings, the MLP architecture appeared to under perform the simple RNN for all the considered targets.   
+
+An interesting although surprising result was that the MLP architecture performed worse than the simple RNN architecture, despite having access to substantially more information (see Figure \ref{model_comp_expl_33}). Since this result was not expected a-priori and the estimated effect size is quite modest, we invite to interpret it with caution. Especially given the relatively small number of parameters assigned to the MLP architecture by the tuning procedure (see Figure \ref{model_comp_expl_33}) .
+\input{tables/chapter_3/collapsed_lmm_performance_33}
+From the post-hoc analysis \ref{collapsed_post_hoc_33}, we can see how the hypotheses presented in section \ref{tuning_comparison_3} were confirmed for all architectures except MLP, which resulted to be the worst performing one (in some cases even by a substantial margin).
+\input{tables/chapter_3/collapsed_posthoc_performance_33}
+Figures \ref{model_comp_coll_game_33} and \ref{model_comp_coll_time_33} appear to show how including environmental and game events covariates seem to improve model perfromance in an additive fashion, with results that are consistent across horizons
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{images/chapter_3/models_comparison_collapsed_game_33.png}
+\caption[\textbf{Model comparison collapsing over game context}]{ Overall, including environmental and game events covariates appear to improve model perfromance in an additive fashion at every time horizon. The size of the improvement however seems to be heterogeneous across targets. Each column represent the perfromance of the considered models on a specific target. Solid lines indicate the expected \% error over time for a specific combination of target and model. Dashed areas indicate the standard error of the mean.}
+\label{model_comp_coll_game_33}
+\end{figure}
+
+and game contexts. From the two figures we can also observe a number of relevant phenomena. First, the largest perfromance improvement was observed for the metric Future Absence. Second, as in the previous two model comparison iterations we can observe an heterogeneity in absolute perfromance driven by the game context and target taken into consideration. Third, the contribution of the environmental covariates on perfromance appeared to be rather erratic (occasionally even hurting perfromance) but always led to a consistent positive impact when coupled with game events information. Finally, despite the proposed modification to the RNN architecture had a consistent positive impact across the board, we can see from Figure \ref{model_comp_non_coll_33} that the effect of environmental and game events covariates alone appeared to be vary across game contexts and targets.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{images/chapter_3/models_comparison_collapsed_time_33.png}
+\caption[\textbf{Model comparison collapsing over time}]{Overall, including environmental and game events covariates appear to improve model perfromance in an additive fashion at every time horizon. The size of the improvement however seems to be heterogeneous across targets. Each column represent the perfromance of the considered models on a specific target. Bars indicate the expected \% error for a specific combination of game context, target and model. Black vertical lines indicate the standard error of the mean.}
+\label{model_comp_coll_time_33} 
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[height=0.5\textheight,keepaspectratio]{images/chapter_3/models_comparison_non_collapsed_33.png}
+\caption[\textbf{Model comparison without collapsing}]{Overall, the joint contribution of game events and environmental covariates appear to have a positive effect of performance in most of the target-game context combinations and temporal horizons. Each column represents the perfromance of the considered models on a specific target while each row reports the perfromance on a specific game context. Solid lines indicate the expected \% error over time for a specific combination of target and model. Dashed areas indicate the standard error of the mean.}
+\label{model_comp_non_coll_33} 
+\end{figure}
+
+
+As expected, when looking at the perfromance of the various architectures at the target level, we noticed a more heterogeneous landscape. From table \ref{exploded_lmm_33} we can see that despite the inclusion of environmental and game events covariate improved the perfromance of the RNN architecture for most targets, there were some noticeable exceptions. For the target Future Active Time there seemed to be no beneficial effect associated to the inclusion of the two covariates, this was likely due to marked perfromance differences between game contexts (see Figure \ref{model_comp_non_coll_33}). Consistently with previous findings, the MLP architecture appeared to under perform the simple RNN for all the considered targets.   
 \input{tables/chapter_3/exploded_lmm_performance_33}
 \input{tables/chapter_3/exploded_posthoc_performance_33}
 \begin{figure*}[h]
