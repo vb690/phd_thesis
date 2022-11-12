@@ -54,7 +54,7 @@
 \def\submitdate#1{\gdef\@submitdate{#1}}
 
   \def\@title{
-      {A Methodology for Approximating Motivation-Related Latent States in Large Scale Scenarios}\\
+      {A Methodology for Approximating the Manifold Structure of Motivation-Related Latent States in Large Scale Scenarios}\\
       {\large And its Application to Engagement Prediction in a Video Game Setting}\\
   }
   \def\@author{Valerio Bonometti}
