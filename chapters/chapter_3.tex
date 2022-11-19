@@ -227,21 +227,21 @@ Learning from the shortcoming of our previous model testing and in line with the
 Inspecting the performance of the RNN architecture over the time dimension, Figure \ref{model_comp_coll_game_32}, we can see how the model not only outperformed competing approaches for most of the considered targets (only for the metric Future Absence the performance is comparable to the MLP architecture) but it did so over all the considered time horizons. Additionally we can see how in general the performance improved the more historical information were available to the model. A similar effect can also be observed for the MLP architecture but to a much lesser extent.
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\textwidth]{images/chapter_3/models_comparison_collapsed_game_32.png}
+\includegraphics[width=0.9\textwidth]{images/chapter_3/models_comparison_collapsed_game_32.png}
 \caption[\textbf{Model comparison collapsing over game context}]{ Overall, our approach (RNN) outperforms all the competing approaches at every time horizon. Each column represent the performance of the considered models on a specific target. Solid lines indicate the expected \% error over time for a specific combination of target and model. Dashed areas indicate the standard error of the mean.}
 \label{model_comp_coll_game_32}
 \end{figure}
 Similar conclusions can be drawn from inspecting the performance over the game-context dimension, Figure \ref{model_comp_coll_time_32}, where the RNN achieved the lowest error rate in almost every game context-target combination. In the few occasions in which this was not the case the performance was at least comparable with that of the MLP architecture (although always better when looking at the expected performance).
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\textwidth]{images/chapter_3/models_comparison_collapsed_time_32.png}
+\includegraphics[width=0.9\textwidth]{images/chapter_3/models_comparison_collapsed_time_32.png}
 \caption[\textbf{Model comparison collapsing over time}]{ Overall, our approach (RNN) outperforms all the competing approaches in most of the target-game context combinations. Each column represent the performance of the considered models on a specific target. Bars indicate the expected \% error for a specific combination of game context, target and model. Black vertical lines indicate the standard error of the mean.}
 \label{model_comp_coll_time_32} 
 \end{figure}
 These results remain almost unchanged even wen considering the interaction between game context and time (see Figure \ref{model_comp_non_coll_32}).
 \begin{figure}[h]
 \centering
-\includegraphics[height=0.5\textheight,keepaspectratio]{images/chapter_3/models_comparison_non_collapsed_32.png}
+\includegraphics[height=0.7\textheight,keepaspectratio]{images/chapter_3/models_comparison_non_collapsed_32.png}
 \caption[\textbf{Model comparison without collapsing}]{ Overall, our approach (RNN) outperforms all the competing approaches in most of the target-game context combinations and temporal horizons. Each column represents the performance of the considered models on a specific target while each row reports the performance on a specific game context. Solid lines indicate the expected \% error over time for a specific combination of target and model. Dashed areas indicate the standard error of the mean.}
 \label{model_comp_non_coll_32} 
 \end{figure}
@@ -388,7 +388,7 @@ The results from the post-hoc analysis (see Table \ref{exploded_post_hoc_33}) pa
 From Figure \ref{model_comp_expl_33} we can see that, differently from the RNN architecture, the improvements in performance produced by the new covariates mechanisms required a substantial increase in the number of parameters and computation time. The MLP architecture again produced surprising results, despite having the least number of parameters it showed one of the highest computation time per epoch suggesting potential inefficiency during the fitting procedure.
 \begin{figure*}[h]
 \centering
-\includegraphics[width=.8\textwidth]{images/chapter_3/performance_exploded_33.png}
+\includegraphics[width=\textwidth]{images/chapter_3/performance_exploded_33.png}
 \caption[\textbf{Dis-aggregated comparison of models' performance}]{The combination of environmental and game events covariates appeared to improve performance in all the targets except Future Active Time. Box-plots show the 10-fold cross-validation performance expressed as percentage of error (i.e. SMAPE) of each model for the five targets. The bar-plot on the top row indicates the number of free parameters for each model while the bar plot on the bottom row shows the average time for each training epoch. Both bar-plots are $log_{10}$ scaled.}
 \label{model_comp_expl_33} 
 \end{figure*}
