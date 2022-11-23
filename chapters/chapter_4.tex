@@ -86,6 +86,7 @@ We adopted the implementation of UMAP provided McInnes \textit{et. al.} \cite{mc
 \subsection{Validating the Functional Properties of the Inferred Latent Representation}
 \label{functional_properties}
 As a first thing we proceeded at investigating if the assumption about the intrinsic dimensionality of the latent representation could be considered reasonable. Looking at figure \ref{cross_corr_act}
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.5\textwidth]{images/chapter_4/corr_matrices.png}
@@ -93,7 +94,7 @@ As a first thing we proceeded at investigating if the assumption about the intri
 \label{cross_corr_act} 
 \end{figure}
 
-we can observe consistent patterns of cross-correlation for the activity of the hidden units constituting the latent representation, suggesting the presence of redundancy. In order to support this finding and for gathering a general sense of the actual intrinsic dimensionality of the manifold we were trying to approximate, we  conducted a Principal Component Analysis (PCA). Despite PCA and UMAP working under radically different assumptions and mechanisms, we thought this could provides us with a general idea of how much variance we would be able to capture by reducing the representation to a lower dimensional space. 
+we can observe consistent patterns of cross-correlation for the activity of the hidden units constituting the latent representation, suggesting the presence of redundancy. In order to support this finding and for gathering a general sense of the intrinsic dimensionality of the embedded manifold, we  conducted a Principal Component Analysis (PCA). Despite PCA and UMAP working under radically different assumptions and mechanisms, we thought this could provides us with a general idea of how much variance we would be able to capture by reducing the representation to a lower dimensional space. 
 
 \begin{figure}[h]
 \centering
@@ -111,7 +112,9 @@ Looking at figure \ref{pca_emb} we can see that two principal components can exp
 \label{temporal_panel_rnn_pca}
 \end{figure}
 
-we can see that that the representation seems to lie on a single gradient line distinguishing between individuals with respect to the expected length of their future interactions (i.e. playing sessions) with the considered game objects. However from this low dimensional projection the representation seems organized in a disorderly manner, with game contexts blending into each other making the gradient line look discontinuous. The projection produced by the UMAP algorithm provides a better picture on the inherent structure of inferred representation, looking at Figure \ref{full_panel_static}A 
+we can see that that the representation seems to embed a single gradient line able to distinguish individuals based on the expected length of their future interactions (here future session time) with the considered game objects. However, we can see how the low dimensional projection is organized in a disorderly manner. Game contexts appear to blend into each other causing the gradient line to look discontinuous. 
+
+The projection produced by the UMAP algorithm, on the other side, appear to provide a better picture of the inherent structure of the inferred representation. Looking at Figure \ref{full_panel_static}A 
 
 \begin{figure}[ht]
 \centering
