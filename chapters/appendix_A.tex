@@ -100,11 +100,33 @@ Given a vector of ground truth values $y \in \mathbb{R}^N_{[0, 1]}$ and predicti
 \end{gather}
 with $precision =\frac {TP}{(TP + FP)}$ and $recall = \frac {TP}{(TP + FN)}$, where \textit{TP, FP, TN, FN} stand for True Positives, False Positives, True Negatives and False Negatives. 
 
+\section{Inertia}
+Given a matrix $X \in \mathbb{R}^{N \times B}$, a set of centroids $C \in \mathbb{R}^{K \times B}$ inferred by the KMeans algorithm and used for dividing the matrix in $K$ partitions, the inertia of the provided solution is defined as 
+\begin{gather}
+\label{inertia}
+    \text{inertia}=
+        \sum\limits_{j=1}^{K}
+        \sum\limits_{i=1}^{N}
+        \mid X_{ki} - C_k \mid ^ 2
+\end{gather}
+with $X_{ki}$ being the $i^{th}$ entry in $X$ assigned to the $k^{th}$ partition.
+
+\section{Average Silhouette Score}
+Given a matrix $X \in \mathbb{R}^{N \times B}$, divided in $k$ partitions by the KMeans algorithm, the average silhouette score of the provided solution is defined as 
+\begin{gather}
+\label{silhouette}
+    \text{S}=
+        \dfrac{1}{N}\sum\limits_{i=1}^{N}
+        \dfrac{b_{ki} - a_{ki}}{max(a_{ki}, b_{ki})}
+\end{gather}
+with $a_{ki}$ being mean distance between $i^{th}$ entry in $X$ assigned to the $k^{th}$ partition and all other entries in $k$ and $b_{ki}$ the mean distance to the next nearest partition.
+
 \section{Dropout Regularization}
 Given parameters $\theta \in \mathbb{R}^z$ the dropout regularization is defined as 
 \begin{gather}
     \label{dropout}
-    dropout(\theta) = \prod^z _{i=1} \theta_i \times d_i \\ \nonumber
+    dropout(\theta) = \theta \cdot diag(d)\\ \nonumber
+    d = \{d_1, \dots, d_z\} \\ \nonumber
     d_i \sim Bernoulli(p) \\ \nonumber
 \end{gather}
 with $p$ being the probability of a parameter being dropped. 
@@ -113,7 +135,8 @@ with $p$ being the probability of a parameter being dropped.
 Given a sequence of parameters $\theta_{t_1:T} \in \mathbb{R}^{T \times z}$ the one dimensional spatial dropout regularization is defined as 
 \begin{gather}
     \label{spatial_dropout}
-    dropout(\theta) = \prod^T _{t=1} \theta_{t:} \times d_t \\ \nonumber
+    dropout(\theta) = \theta_{t:} \cdot d\\ \nonumber
+    d = \mathit{I}^{z \times z} \cdot d_t \\ \nonumber
     d_t \sim Bernoulli(p) \\ \nonumber
 \end{gather}
 with $p$ being the probability of an entire step in the sequence of parameters being dropped. 
