@@ -2,17 +2,25 @@
 \label{industry_needs}
 As we mentioned in chapter \ref{chapter_general_intro}, the aim of this thesis has been twofold: deriving a methodology for inferring the motivational state of individuals while interacting with potentially rewarding object (a videogame in this case) and presenting how this could be used in an applied setting.
 
-In this view, this chapter will focus on sketching the design of a system relying on our methodology for automated engagement prediction. First we will introduce a set of ethical considerations that should be taken into account when designing such system. Subsequently, we will provide an overview on why an industry player (or groups thereof) might need a process for quantifying and predicting engagement and which characteristics this process should have. Finally we will proceed at illustrating a system designed for serving this need placing particular emphasis on how its components connect with the work presented so far.
+In this view, this chapter will focus on sketching the design of a system relying on our methodology for automated engagement prediction. First we will introduce a set of ethical considerations that should be taken into account when designing such system. Subsequently, we will provide an overview on why an industry player (or groups thereof) might need a process for quantifying and predicting engagement and which characteristics this process should have. Finally we will proceed at illustrating a system designed for serving this need, placing particular emphasis on how its components connect with the work presented so far.
 
 \section{Some Ethical Consideration}
 \label{ehtical_considerations}
 Automated system leveraging behavioural data are now-days used extensively in both low and high stakes scenarios \cite{mehrabi2021survey}, with the potential to have a direct and concrete impact on individuals. For this reason, when designing automated data-driven applications, issues related to fairness should be taken into account. 
 
-By fairness we entail the set of principles and considerations that in recent years are adopted  of a machine learning model do not inadvertently bring harm to different groups of people. 
+By fairness we entail the set of principles and considerations that in recent years are adopted in order to avoid that decisions based on a machine-learned model do not inadvertently bring harm to specific groups of people \cite{mehrabi2021survey}. A complete overview of the issue of fairness in machine learning would be beyond the scope of not just this section but the entire thesis, as it is an extensive \cite{mehrabi2021survey} landscape 
 
-This might realize in the form of biases in the data on which a certain algorithm is fitted or unconstrained predictions produced by the model. The first incurs in the risk of  under or over represent certain strata in the considered population of user. The second incours in the risk of inadvertently cause harm to certain user considered vulnerable, for example if we imagine a system aimed at target high spender users in a game based on gatcha or loot-box mechanics, an unconstrained prediction might inadvertently target individual with a predisposition to or an history of problematic gambling behaviour.
+We will therefore focus on two major aspects related to the work presented in this chapter. 
 
-\section{The Needs from the Videogames Industry}
+The first aspect concerns biases present in the data on which a machine learning algorithm is fitted. These might be induced by an over or under representation of certain strata of the population that an automated system will ultimately need to serve \cite{mehrabi2021survey}.  
+
+incurs in the risk of  under or over represent certain strata in the considered population of user. The second incours in the risk of inadvertently cause harm to certain user considered vulnerable.
+
+This might realize in the form of biases in the data on which a certain algorithm is fitted or unconstrained predictions produced by the model. The first 
+
+for example if we imagine a system aimed at target high spender users in a game based on gatcha or loot-box mechanics, an unconstrained prediction might inadvertently target individual with a predisposition to or an history of problematic gambling behaviour.
+
+\section{Engagement Quantification and Prediction for the Videogames Industry}
 \label{industry_needs}
 As we mentioned before despite the industry might be interested in the development of research projects the the focus of this project is less on the advancement of the research field on more focused on the solution of practical problems. 
 
