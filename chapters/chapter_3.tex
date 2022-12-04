@@ -468,7 +468,7 @@ We want to stress how in this context we considered the ability to account for t
 
 \subsection{Model Design}
 \label{model_design_3}
-The final iteration of our ANN architecture was an extension of the previous RNN model and aimed to jointly predict the same set of 5 behavioural metrics. This new architecture however, leveraging the same principles of Neural GAMs (as outlined in section \ref{modelling_env_and_game_elements}), tried to obtain a better estimate of the latent state used for predicting future behaviour by decomposing it in 3 functional components. The architecture is illustrated in Figure \ref{rnn_env_even}
+The final iteration of our ANN architecture was an extension of the previous RNN model and aimed to jointly predict the same set of 5 behavioural metrics. This new architecture however, leveraging the same principles of Neural GAMs (as outlined in section \ref{modelling_env_and_game_elements}), tried to obtain a better estimate of the latent state used for predicting future behaviour by decomposing it in 3 functional components. The architecture is illustrated in Figure \ref{fig: rnn_env_even}
 
 \input{diagrams/chapter_3/rnn_33}
 
@@ -499,7 +499,7 @@ Since the superiority of non-linearity was at this point widely confirmed, we de
 
 In order to evaluate the contribution of modelling environmental factors and game events in the predictive performance of the architecture, we adopted a variation of ablation study \cite{meyes2019ablation}. Ablation studies aim at assessing the contribution of the components of a machine learning system by evaluating variations in the system's performance after selectively removing (i.e. ablating) them. In our case we opted for a more expensive although more robust approach, we generated three versions of the architecture presented in section \ref{model_architecture_3} and fitted all of them separately to the data. One architecture included only the behavioural input, one included only the game events input and one included only the environmental inputs. In the context of very expressive algorithms, like ANNs, allowing each architecture to benefit from a separate hyper-parameter tuning and optimization step could allow the emergence of compensation strategies not contemplated in conventional ablation studies. 
 
-Finally in order to replicate our finding on the importance of recurrency, we decided to consider a variation of the architecture presented in section \ref{model_architecture_3} substituting the LSTM operations with time-distributed feed-forward ones (see Figure \ref{fig: mlp_3}.
+Finally in order to replicate our finding on the importance of recurrency, we decided to consider a variation of the architecture presented in section \ref{model_architecture_3} substituting the LSTM operations with time-distributed feed-forward ones (see Figure \ref{fig: mlp_3}).
 \input{diagrams/chapter_3/mlp_33}
 
 \subsection{Data}
