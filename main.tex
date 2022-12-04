@@ -18,6 +18,8 @@
 \usepackage{bm}
 \usepackage{booktabs}
 \usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage[Lenny]{fncychap}
 \usepackage{footmisc}
 \usepackage{authblk}
 \usepackage[tracking=true]{microtype}
@@ -58,13 +60,17 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[OR]{\nouppercase\rightmark}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
 \titlePage
+
+\frontmatter
 
 \begin{abstract}
 \label{abstract}
@@ -89,9 +95,8 @@ I would like to thank my supervisors Alex and Anders for their presence and supp
 Finally, a special thanks goes to all  the colleagues and friends that accompanied me during these challeging but surely exciting years.
 
 
-\chapter*{Dedication}
+\chapter*{}
 \label{dedication}
-\addcontentsline{toc}{chapter}{Dedication}
 
 \begin{flushright}
 To Mum and Dad\\
@@ -104,6 +109,8 @@ To Simona\\
 \contents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter
 
 \chapter*{General Introduction}
 \label{chapter_general_intro}
