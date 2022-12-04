@@ -136,6 +136,7 @@
 	  \listoffigures
 	  \newpage
   }{}
+  \input{chapters/general_introduction.tex}
 }
 
 \newcommand{\accompanyingMaterials}{

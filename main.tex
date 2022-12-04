@@ -61,8 +61,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \pagestyle{fancy}
-\fancyhf{}
-\fancyhead[OR]{\nouppercase\rightmark}
+\fancyhf{} % clear all fields
+\fancyhead[RO,LE]{\thepage}
+\fancyhead[LO,RE]{\slshape\leftmark}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -103,7 +104,6 @@ To Mum and Dad\\
 To Simona\\
 \end{flushright}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \contents
@@ -111,11 +111,6 @@ To Simona\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \mainmatter
-
-\chapter*{General Introduction}
-\label{chapter_general_intro}
-\addcontentsline{toc}{chapter}{General Introduction}
-\input{chapters/general_introduction}
 
 \chapter{Motivation and Engagement}
 \label{chapter_lit_review}
