@@ -177,9 +177,9 @@ with $\lambda$ being a a constant controlling the ammount of regularization.
 Given an input matrix $X \in \mathbb{R}^{N \times h}$, the fully connected operation carried out by $L$ layers feedforward neural network can be defined as
 \begin{gather}
     \label{fnn_operation}
-    h_0 = X
+    h_0 = X \\ \nonumber
     h_1 = \phi(\theta_1^\top h_0 + \beta_1)\\ \nonumber
-    h_2 = \phi(\theta_2^\top h_1  + \beta_2)\\ \nonumber
+    h_2 = \phi(\theta_2^\top h_2  + \beta_2)\\ \nonumber
     \dots\\ \nonumber
     h_L = \phi(\theta_L^\top h_{L-1}  + \beta_L) \nonumber
 \end{gather}
@@ -215,7 +215,7 @@ Given an input set of multivariate time series $X_{t_1:T} \in \mathbb{R}^{N \tim
     c_t = f_t \times c_{t-1} + i_t \times \widehat{c}_t \\ \nonumber
     h_t = o_t \times \tanh(c_t) \\ \nonumber
 \end{gather}
-with $\sigma$  being the sigmoid function, $\tanh$ the hyperbolic function, $\theta_{xf}$, $\theta_{hf}$, $\theta_{xi}$, $\theta_{hi}$, $\theta_{xo}$, $\theta_{ho}$, $\theta_{xc}$, $\theta_{hc}$ a set of learnable weights matrices, $\beta_f$, $\beta_i$, $\beta_o$, $\beta_c$, a set of learnable biases, $c_t$ the value at time $t$ of the conveyor belt matrix and $h_t$ the value at time $t$ of the hidden state matrix.
+with $\sigma$  being the sigmoid function, $\tanh$ the hyperbolic function, $\theta_{xf}$, $\theta_{xi}$, $\theta_{xo}$, $\theta_{xc}$ $\in \mathbb{R}^{B \times h}$ and $\theta_{hf}$,  $\theta_{hi}$,  $\theta_{ho}$, $\theta_{hc}$, $\theta_{hf}$ $\in \mathbb{R}^{h \times h}$ a set of learnable weights matrices, $\beta_f$, $\beta_i$, $\beta_o$, $\beta_c$ $\in \mathbb{R}^{h}$ , a set of learnable biases, $c_t$ the value at time $t$ of the conveyor belt matrix and $h_t$ the value at time $t$ of the hidden state matrix.
 
 
 \section{Time Distributed Operation}
