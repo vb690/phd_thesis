@@ -55,7 +55,7 @@
 
   \def\@title{
       {A Methodology for Approximating the Manifold Structure of Motivation-Related Latent States in Large Scale Scenarios}\\
-      {\normalsize And its Application to Engagement Prediction in a Video Game Setting}\\
+      {\normalsize And its Role in Engagement Prediction within a Video Game Setting}\\
   }
   \def\@author{Valerio Bonometti}
   \def\@dept{Computer Science}

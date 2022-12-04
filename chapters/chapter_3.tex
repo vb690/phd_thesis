@@ -298,6 +298,7 @@ First, we decided to improve our baseline by establishing two reasonable single-
   \end{gathered}
 \end{equation}
 here $t$ represent a single game session in a sequence of $T$ observed interactions while $B$ are the same behavioural metrics the RNN model receives as input (they are thoroughly described in section \ref{data_2}). The second is a Median model computing the expectation of each of the 5 targets according to the formula:
+
 \begin{equation}
   \begin{gathered}  
     \overline{B_{t+1}} = \frac
@@ -307,6 +308,7 @@ here $t$ represent a single game session in a sequence of $T$ observed interacti
     \label{median}
   \end{gathered}
 \end{equation}
+
 here $\overline{B_{t+1}}$ is an exponentially weighted average of all the $B_t$ up to $t+1$ observed when fitting the model. This is computed separately for every individual in the dataset and the median value of each of the 5 targets is used a a constant prediction. These apparently naive models provide a surprisingly robust prediction baseline for time series that are not white noise \cite{hyndman2018forecasting} other than having a nice interpretation in terms of behavioural momentum \cite{nevin2000behavioral}: in conditions of high experienced reward the behaviour of an individual tends to be consistent over time (i.e. resistant to change). 
 
 Similarly to the model used in the assessment of the BM architecture, a multi-task linear model with Elastic-Net regularization (ENet) \cite{zou2005regularization} was used to evaluate the performance of simple additive models. While for testing the effect of non linearity, a multi-task Multilayer Perceptron (MLP) was employed. Both model used an embedding operation for encoding information from the game context but the ENet model had the number of hidden units fixed to 1 an relied on an $identity$ activation function. This was done for avoiding to introduce non-linearity in the ENet model. Figure \ref{fig: mlp_2} show the architecture used for both the ENet and MLP models. We can see that differently from the models used in section \ref{model_architecture_1} the only difference with RNN architecture lies in the use of time distributed fully connected operations instead of those provided by the LSTM. 
