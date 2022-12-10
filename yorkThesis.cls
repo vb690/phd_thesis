@@ -54,12 +54,12 @@
 \def\submitdate#1{\gdef\@submitdate{#1}}
 
   \def\@title{
-      {A Methodology for Approximating the Manifold Structure of Motivation-Related Latent States in Large Scale Scenarios}\\
+      {A Methodology for Approximating Motivation-Related Latent States in Large Scale Scenarios}\\
       {\normalsize And its Role in Engagement Prediction within a Video Game Setting}\\
   }
   \def\@author{Valerio Bonometti}
   \def\@dept{Computer Science}
-  \def\@supervisor{Alex Wade, Anders Drachen}
+  \def\@supervisor{Prof. Alex Wade and Prof. Anders Drachen}
   \def\@submitdate{\ifcase\the\month\or
     January\or February\or March\or April\or May\or June\or
     July\or August\or September\or October\or November\or December\fi
@@ -78,6 +78,7 @@
 		{\Large\bf \@author} \\
         \vspace{1in}
         
+        
         \begin{center}
         \begin{minipage}{5in}
          \begin{center}
@@ -94,9 +95,11 @@
           YO10 5DD\\
           UK \\
         \vspace{0.5in}
-         \@dept \\
+         Department of \@dept \\
         \vspace{0.25in}
-         \@submitdate
+         \@submitdate \\
+        \vspace{.25in}
+  		{Supervisors \\ \@supervisor} \\
 	\end{center}
         \end{singlespace}
 }

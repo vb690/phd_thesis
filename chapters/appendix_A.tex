@@ -1,6 +1,6 @@
 \chapter{Frequent Notation}
 
-We will report here frequent notation used through all the thesis. Each notation is referenced when it appears in the manuscript main body for the first time.
+We will report here frequent notation used through all the thesis. Each notation is referenced when it appears in the manuscript main body for the first time. Vectors are written in low-case ($x$) while matrices in upper-case ($X$). Parameters are indicated by the Greek letter $\theta$ except for weights ($W$) and biases ($b$) used when defining ANN operations.
 
 \section{Identity function}
 Given a vector $x$ the identity function $id$ is defined as 
@@ -125,29 +125,29 @@ with $a_{ki}$ being mean distance between $i^{th}$ entry in $X$ assigned to the 
 Given parameters $\theta \in \mathbb{R}^z$ the dropout regularization is defined as 
 \begin{gather}
     \label{dropout}
-    dropout(\theta) = \theta \cdot diag(d)\\ \nonumber
+    dropout(\theta) = W \cdot diag(d)\\ \nonumber
     d = \{d_1, \dots, d_z\} \\ \nonumber
     d_i \sim Bernoulli(p) \\ \nonumber
 \end{gather}
 with $p$ being the probability of a parameter being dropped. 
 
 \section{One Dimensional Spatial Dropout Regularization}
-Given a sequence of parameters $\theta_{t_1:T} \in \mathbb{R}^{T \times z}$ the one dimensional spatial dropout regularization is defined as 
+Given a sequence of weight matrices $W_{t_1:T} \in \mathbb{R}^{T \times z}$ the one dimensional spatial dropout regularization is defined as 
 \begin{gather}
     \label{spatial_dropout}
-    dropout(\theta) = \theta_{t:} \cdot d\\ \nonumber
+    dropout(W) = W_{t:} \cdot d\\ \nonumber
     d = \mathit{I}^{z \times z} \cdot d_t \\ \nonumber
     d_t \sim Bernoulli(p) \\ \nonumber
 \end{gather}
 with $p$ being the probability of an entire step in the sequence of parameters being dropped. 
 
 \section{Batch Normalization Regularization}
-Given an embedding  $h \in \mathbb{R}^{N\times z}$ the batch normalization regularization is defined as 
+Given an embedding  $H \in \mathbb{R}^{N\times z}$ the batch normalization regularization is defined as 
 \begin{gather}
     \label{batch_norm}
-    BatchNorm(h) = \frac{h - \mu_b}{\sqrt{(\sigma_b)^2} + \epsilon}
+    BatchNorm(H) = \frac{h - \mu_b}{\sqrt{(\sigma_b)^2} + \epsilon}
 \end{gather}
-with $\mu_b$ and $\sigma_b$ being respectively the column-wise mean and standard deviation of the embedding $h$ and $\epsilon$ a small constant for avoiding division by zero.
+with $\mu_b$ and $\sigma_b$ being respectively the column-wise mean and standard deviation of the embedding $H$ and $\epsilon$ a small constant for avoiding division by zero.
 
 \section{Ridge Regularization}
 Given parameters $\theta$ the ridge regularization function $l2$ is defined as 
@@ -177,13 +177,13 @@ with $\lambda$ being a a constant controlling the ammount of regularization.
 Given an input matrix $X \in \mathbb{R}^{N \times h}$, the fully connected operation carried out by $L$ layers feedforward neural network can be defined as
 \begin{gather}
     \label{fnn_operation}
-    h_0 = X \\ \nonumber
-    h_1 = \phi(\theta_1^\top h_0 + \beta_1)\\ \nonumber
-    h_2 = \phi(\theta_2^\top h_2  + \beta_2)\\ \nonumber
+    H_0 = X \\ \nonumber
+    H_1 = \phi(W_1^\top H_0 + b_1)\\ \nonumber
+   H_2 = \phi(W_2^\top H_2  + b_2)\\ \nonumber
     \dots\\ \nonumber
-    h_L = \phi(\theta_L^\top h_{L-1}  + \beta_L) \nonumber
+   H_L = \phi(W_L^\top H_{L-1}  + b_L) \nonumber
 \end{gather}
-with $\phi$ being a non-linear function, $\{\theta_1, \dots, \theta_N\}$ a set of learnable weights matrices of shape $\theta_l \in \mathbb{R}^{h_{l-1} \times h_{l}}$ and $\{\beta_1, \dots, \beta_N\}$ a set of learnable biases vectors of shape $b_l \in \mathbb{R}^{h_l}$.
+with $\phi$ being a non-linear function, $\{W_1, \dots, W_N\}$ a set of learnable weights matrices of shape $W_l \in \mathbb{R}^{H_{l-1} \times H_{l}}$ and $\{b_1, \dots, b_N\}$ a set of learnable biases vectors of shape $b_l \in \mathbb{R}^{h_l}$.
 
 \section{One-Hot Encode Operation}
 Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the one-hot encode operation is defined as 
@@ -200,29 +200,29 @@ Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the one-hot en
 Given an input set of numerical indices $X = \{1, 2, \dots, N\}$, the embedding operation is defined as 
 \begin{gather}
     \label{embedding_operation}
-    h = \phi(\theta_{X,*})
+    h = \phi(W_{X,*})
 \end{gather}
-with $\phi$ being a non-linear function and $\theta$ an $\mathbb{R}^{N \times z}$ learnable weights matrix.
+with $\phi$ being a non-linear function and $W$ an $\mathbb{R}^{N \times z}$ learnable weights matrix.
 
 \section{LSTM Cell Operation}
 Given an input set of multivariate time series $X_{t_1:T} \in \mathbb{R}^{N \times T \times B}$ with $N$ being the number of series, $T$ the length of the series and $B$ the dimensionality of the series. An LSTM cell operation, applied recursively along the temporal dimension for each $x_{*,t,*} \in X$, is defined as
 \begin{gather}
     \label{lstm_operation}
-    f_t = \sigma(\theta_{xf}^\top x_{*,t,*} + \theta_{hf}^\top h_{t-1} + \beta_f) \\ \nonumber
-    i_t = \sigma(\theta_{xi}^\top x_{*,t,*} + \theta_{hi}^\top h_{t-1} + \beta_i) \\ \nonumber
-    o_t = \tanh(\theta_{xo}^\top x_{*,t,*} + \theta_{ho}^\top h_{t-1} + \beta_o) \\ \nonumber
-    \widehat{c}_t = \sigma(\theta_{xc}^\top x_{*,t,*} + \theta_{hc}^\top h_{t-1} + \beta_c) \\ \nonumber
+    f_t = \sigma(W_{xf}^\top x_{*,t,*} + W_{hf}^\top H_{t-1} + b_f) \\ \nonumber
+    i_t = \sigma(W_{xi}^\top x_{*,t,*} + W_{hi}^\top H_{t-1} + b_i) \\ \nonumber
+    o_t = \tanh(W_{xo}^\top x_{*,t,*} + W_{ho}^\top H_{t-1} + b_o) \\ \nonumber
+    \widehat{c}_t = \sigma(W_{xc}^\top x_{*,t,*} + W_{hc}^\top H_{t-1} + b_c) \\ \nonumber
     c_t = f_t \times c_{t-1} + i_t \times \widehat{c}_t \\ \nonumber
-    h_t = o_t \times \tanh(c_t) \\ \nonumber
+    H_t = o_t \times \tanh(c_t) \\ \nonumber
 \end{gather}
-with $\sigma$  being the sigmoid function, $\tanh$ the hyperbolic function, $\theta_{xf}$, $\theta_{xi}$, $\theta_{xo}$, $\theta_{xc}$ $\in \mathbb{R}^{B \times h}$ and $\theta_{hf}$,  $\theta_{hi}$,  $\theta_{ho}$, $\theta_{hc}$, $\theta_{hf}$ $\in \mathbb{R}^{h \times h}$ a set of learnable weights matrices, $\beta_f$, $\beta_i$, $\beta_o$, $\beta_c$ $\in \mathbb{R}^{h}$ , a set of learnable biases, $c_t$ the value at time $t$ of the conveyor belt matrix and $h_t$ the value at time $t$ of the hidden state matrix.
+with $\sigma$  being the sigmoid function, $\tanh$ the hyperbolic function, $W_{xf}$, $W_{xi}$, $W_{xo}$, $W_{xc}$ $\in \mathbb{R}^{B \times h}$ and $W_{hf}$,  $W_{hi}$,  $W_{ho}$, $W_{hc}$, $W_{hf}$ $\in \mathbb{R}^{h \times h}$ a set of learnable weights matrices, $b_f$, $b_i$, $b_o$, $b_c$ $\in \mathbb{R}^{h}$ , a set of learnable biases, $c_t$ the value at time $t$ of the conveyor belt matrix and $h_t$ the value at time $t$ of the hidden state matrix.
 
 
 \section{Time Distributed Operation}
 Given an input tensor $X \in \mathbb{R}^{N \times T \times h}$, a function $f$ with parameters $\theta$ can be applied along the temporal dimension for each $x_{*,t,*} \in X$ as
 \begin{gather}
     \label{time_distributed}
-    h_t = f(x_{*,t,*}; \theta)
+    H_t = f(x_{*,t,*}; \theta)
 \end{gather}
 it has to be noted that this has the effect of sharing $\theta$ across all $t \in T$ but without temporal conditioning (e.g. like the LSTM operation presented in Appendix \ref{lstm_operation} does).
 
@@ -230,7 +230,7 @@ it has to be noted that this has the effect of sharing $\theta$ across all $t \i
 Given an input set of multivariate time series $X_{t_1:T} \in \mathbb{R}^{N \times T \times B}$ with $N$ being the number of series, $T$ the length of the series and $B$ the dimensionality of the series. A One Dimensional Convolution operation, applied recursively along the temporal dimension for each $x_{*,t,*} \in X$, is defined as
 \begin{gather}
     \label{1d_conv}
-    h_t = \phi(\theta_{K}^\top x_{*,t : t+k,*})
+    H_t = \phi(W_{K}^\top x_{*,t : t+k,*})
 \end{gather}
 with $\phi$ being a non-linear function and $K$ a $K \in \mathbb{R}^{k \times z}$ learnable weights matrix.
 
@@ -238,6 +238,6 @@ with $\phi$ being a non-linear function and $K$ a $K \in \mathbb{R}^{k \times z}
 Given an input set of multivariate time series $X_{t_1:T} \in \mathbb{R}^{N \times T \times B}$ with $N$ being the number of series, $T$ the length of the series and $B$ the dimensionality of the series. A Global Average Pooling Operation, is defined as
 \begin{gather}
     \label{1d_pool}
-    h_t = \dfrac{1}{T} \sum_{t=1}^{t}X_{*,t,*}
+    H_t = \dfrac{1}{T} \sum_{t=1}^{t}X_{*,t,*}
 \end{gather}
 
