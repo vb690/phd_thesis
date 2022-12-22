@@ -22,6 +22,7 @@
 \usepackage[Lenny]{fncychap}
 \usepackage{footmisc}
 \usepackage{authblk}
+\usepackage{setspace}
 \usepackage[tracking=true]{microtype}
 \usepackage[toc,page]{appendix}
 \usepackage[font={small}]{caption}
@@ -69,6 +70,7 @@
 
 \begin{document}
 
+\onehalfspacing
 \titlePage
 \frontmatter
 
@@ -81,7 +83,7 @@ Motivation is a fundamental psychological process guiding our everyday behaviour
 \chapter*{Declaration}
 \label{declaration}
 \addcontentsline{toc}{chapter}{Declaration}
- I declare that this thesis has not previously been accepted in substance for any degree and is not being concurrently submitted in candidature for any degree other than Doctor of Philosophy of the University of York. This thesis is the result of my own investigations, except where otherwise stated. Other sources are acknowledged by explicit references. All sources are acknowledged as References. I hereby give consent for my thesis, if accepted, to be made available for photocopying and for inter-library loan, and for the title and summary to be made available to outside organisations. The work presented in this thesis is the result of a partnership between University of York and Square Enix Ltd. The PhD project has been developed full-time within the analytics and data science team of Square Enix Ltd. It was supported by the EPSRC Centre for Doctoral Training in Intelligent Games \& Games Intelligence (IGGI) through grant [EP/L015846/1]. All data employed in this work were obtained and processed in compliance with the European Union's General Data Protection Regulation \cite{EUdataregulations2018} and Square Enix Ltd. data protection policies. Chapter \ref{chapter_theory_modelling} is based on the work carried out in \cite{bonometti2020theory, bonometti2021approximating}. Chapter \ref{chapter_implementation_testing} is based on the work carried out in \cite{bonometti2019modelling, bonometti2020theory, bonometti2021approximating}. Chapter \ref{chapter_repr_anal} is based on the work carried out in \cite{bonometti2021approximating}. Other contributions that were not included in this doctoral thesis can be found in \cite{aung2018predicting} and \cite{vardal2022mind}.
+ I declare that this thesis has not previously been accepted in substance for any degree and is not being concurrently submitted in candidature for any degree other than Doctor of Philosophy of the University of York. This thesis is the result of my own investigations, except where otherwise stated. Other sources are acknowledged by explicit references. All sources are acknowledged as References. I hereby give consent for my thesis, if accepted, to be made available for photocopying and for inter-library loan, and for the title and summary to be made available to outside organisations. The work presented in this thesis is the result of a partnership between University of York and Square Enix Ltd. The PhD project has been developed full-time within the analytics and data science team of Square Enix Ltd. It was supported by the EPSRC Centre for Doctoral Training in Intelligent Games \& Games Intelligence (IGGI) through grant [EP/L015846/1]. All data employed in this work were obtained and processed in compliance with the European Union's General Data Protection Regulation \cite{EUdataregulations2018} and Square Enix Ltd. data protection policies. Chapter \ref{chapter_theory_modelling} is based on the work carried out in \cite{bonometti2020theory, bonometti2021approximating}. Chapter \ref{chapter_implementation_testing} is based on the work carried out in \cite{bonometti2019modelling, bonometti2020theory, bonometti2021approximating}. Chapter \ref{chapter_repr_anal} is based on the work carried out in \cite{bonometti2021approximating}. Other contributions that were not included in this doctoral thesis can be found in \cite{aung2018predicting} and \cite{vardal2022mind}. \footnote{All the code, excluding the SQL queries used for gathering the data, associated with the work }
 
 \chapter*{Acknowledgements}
 \label{acknowledgements}
@@ -90,7 +92,7 @@ This work was supported by the EPSRC Centre for Doctoral Training in Intelligent
 
 The partner company Square Enix Ltd. provided all the data used for the development of this thesis. We want to highlight how this work would have not been possible without them. We are therefore profoundly grateful and thankful to the whole Square Enix Analytics and Insight team and to its leadership in particular.
 
-I would like to thank my supervisors Alex and Anders for their presence and support as this is something that undoubtedly shaped my PhD journey.
+I would like to thank my supervisors Alex Wade and Anders Drachen for their presence and support as this is something that undoubtedly shaped my PhD journey.
 
 Finally, a special thanks goes to all  the colleagues and friends that accompanied me during these challeging but surely exciting years.
 
